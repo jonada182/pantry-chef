@@ -15,7 +15,7 @@ const ChatResponse = ({ message, response, loading }: Props) => {
           </div>
           <div className="bg-accent text-white p-4 rounded flex flex-col  ">
             <strong className="text-black font-bold opacity-70">Bot</strong>
-            <span className="text-lg italic">{response}</span>
+            <span className="text-lg italic" dangerouslySetInnerHTML={{ __html: response }}></span>
           </div>
         </div>
       )}
