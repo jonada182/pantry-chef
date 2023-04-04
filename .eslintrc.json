@@ -1,24 +1,36 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": [
-        "airbnb-typescript"
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb-typescript"
+  ],
+  "parserOptions": {
+    "files": ["*.ts, *.tsx, *.css, *.scss"],
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": [
+      "./tsconfig.json"
+    ]
+  },
+  "plugins": [
+    "react",
+    "import",
+    "react-hooks"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "quotes": [
+      "error",
+      "double",
+      {"allowTemplateLiterals": true}
     ],
-    "overrides": [
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "project": ["tsconfig.json"]
-    },
-    "plugins": [
-        "react",
-        "import"
-    ],
-    "rules": {
-      "quotes": ["error", "double"],
-      "@typescript-eslint/quotes": ["error", "double"]
-    }
+    "@typescript-eslint/quotes": [
+      "error",
+      "double",
+      {"allowTemplateLiterals": true}
+    ]
+  }
 }
