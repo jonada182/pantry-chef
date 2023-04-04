@@ -1,58 +1,54 @@
 import { useEffect, useState } from "react";
 import { API } from "../helpers";
 
-type SendMessageProps = {
+interface SendMessageProps {
   message: string;
-};
+}
 
-type SendMessageResponse = {
+interface SendMessageResponse {
   isLoading: boolean;
   responseMessage: string;
-};
+}
 
-const sendMessage = async (message: string): Promise<string> => {
+export const useSendMessage = (props :SendMessageProps): SendMessageResponse => {
 
-  try {
-
-    const response = await API.post("chat", {
-      message: message,
-    });
-
-    return response?.data?.message;
-
-  } catch (error: any) {
-    if (error.response) {
-      // Request made but the server responded with an error
-      console.log("API Response Error:", error.message, error.response.status);
-    } else if (error.request) {
-      // Request made but no response is received from the server.
-      console.log("API Error:", error.message);
-    } else {
-      // Error occured while setting up the request
-      console.log("Error", error.message);
-    }
-  }
-
-  return "";
-};
-
-export const useSendMessage = ({ message }:SendMessageProps): SendMessageResponse => {
-
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (message != "") {
-          setIsLoading(true);
-          setResponseMessage(await sendMessage(message));
-        }
-      } finally {
-        setIsLoading(false);
+  const sendMessage = async () => {
+
+    if (props.message == "")
+      return;
+
+    setResponseMessage("Mocking API response");
+    return;
+
+    setIsLoading(true);
+
+    try {
+
+      const response = await API.post("chat", {
+        message: props.message,
+      });
+
+      setResponseMessage(response?.data?.message);
+
+    } catch (error: any) {
+      if (error.response) {
+        console.log("API Response Error:", error.message, error.response.status);
+      } else if (error.request) {
+        console.log("API Error:", error.message);
+      } else {
+        console.log("Error", error.message);
       }
-    })();
-  }, [message]);
+    }
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    sendMessage();
+  }, [props.message]);
 
   return {
     isLoading: isLoading,

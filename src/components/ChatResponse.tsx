@@ -4,12 +4,12 @@ interface Props {
   loading: boolean;
 }
 
-const ChatResponse = ({ message, response, loading }: Props) => {
+export const ChatResponse = ({ message, response, loading }: Props) => {
   return (
     <>
       {response != "" && !loading && (
         <div className=" flex flex-col gap-4">
-          <div className="bg-divider text-primary-text p-4 rounded flex flex-col">
+          <div className="bg-light-primary text-primary-text p-4 rounded flex flex-col">
             <strong className="text-black font-bold opacity-70">Me</strong>
             <span className="italic">{message}</span>
           </div>
@@ -30,5 +30,3 @@ const ChatResponse = ({ message, response, loading }: Props) => {
     </>
   );
 };
-
-export default ChatResponse;
