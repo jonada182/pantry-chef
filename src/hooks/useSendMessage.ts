@@ -20,8 +20,9 @@ export const useSendMessage = (props :SendMessageProps): SendMessageResponse => 
     if (props.message == "")
       return;
 
-    setResponseMessage("Mocking API response");
-    return;
+    // Uncomment to mock response instead of calling the API
+    // setResponseMessage("Mocking API response");
+    // return;
 
     setIsLoading(true);
 
