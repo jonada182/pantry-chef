@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSendMessage } from "./hooks";
-import { PageHeading, TextInput, Button, FlexRow, FlexCol, ChatResponse } from "./components";
+import { PageHeading, TextInput, Button, FlexRow, FlexCol, Chat } from "./components";
 
 function App() {
 
@@ -27,7 +27,7 @@ function App() {
           <TextInput value={message} isLoading={isLoading} handleOnChange={setMessage}/>
           <Button text="Send" loadingText="Sending" isLoading={isLoading} handleOnClick={handleSendMessageBtn} />
         </FlexRow>
-        <ChatResponse message={chatMessage} response={chatResponse} loading={isLoading} />
+        <Chat message={chatMessage} response={chatResponse} loading={isLoading} />
       </FlexCol>
     </div>
   );

@@ -15,21 +15,28 @@ export const useSendMessage = (props :SendMessageProps): SendMessageResponse => 
   const [isLoading, setIsLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
-  const sendMessage = async () => {
+  const sendMockMessage = (mockMessage: string = "mocked response") => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setResponseMessage(mockMessage);
+      setIsLoading(false);
+    }, 2000);
+  };
 
-    if (props.message == "")
+  const sendMessage = async (message: string) => {
+
+    if (message == "")
       return;
 
-    // Uncomment to mock response instead of calling the API
-    // setResponseMessage("Mocking API response");
-    // return;
+    if (import.meta.env.APP_MOCK_API == "true")
+      return sendMockMessage();
 
     setIsLoading(true);
 
     try {
 
       const response = await API.post("chat", {
-        message: props.message,
+        message: message,
       });
 
       setResponseMessage(response?.data?.message);
@@ -45,14 +52,16 @@ export const useSendMessage = (props :SendMessageProps): SendMessageResponse => 
     }
 
     setIsLoading(false);
+
   };
 
   useEffect(() => {
-    sendMessage();
+    sendMessage(props.message);
   }, [props.message]);
 
   return {
     isLoading: isLoading,
     responseMessage: responseMessage,
   };
+
 };

@@ -1,10 +1,13 @@
+import React from "react";
+
 type Props = {
   gapSize?: number;
-  children: string | JSX.Element | JSX.Element[];
+  children?: React.ReactNode;
+  className?: string;
 };
 
-export function FlexCol({ gapSize, children }: Props) {
+export function FlexCol({ gapSize, children, className }: Props) {
   return (
-    <div className={`flex flex-col gap-${gapSize}`}>{ children }</div>
+    <div className={`flex flex-col gap-${gapSize} ${className}`}>{ children }</div>
   );
 }
