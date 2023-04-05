@@ -8,7 +8,7 @@ This Chatbot app built with React TypeScript, using the [OpenAI Chat API](https:
 2.  Install dependencies using `npm install`
 3.  (Optional) Create a `.env.local` file in the root directory with the following content:
 ```
-    APP_API_BASE_URL="http://localhost:5000"
+    APP_API_BASE_URL="http://localhost:8000"
     APP_MOCK_API=false
 ```
 4.  Start the development server using `npm run dev`
@@ -44,7 +44,7 @@ This project uses the following environment variables:
 
 ### `APP_API_BASE_URL`
 
-The base URL for the API. Default value is `http://localhost:5000`.
+The base URL for the API. Default value is `http://localhost:8000`.
 
 ### `APP_MOCK_API`
 
