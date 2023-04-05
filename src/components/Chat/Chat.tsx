@@ -16,7 +16,7 @@ export const Chat = ({ message, response, loading }: Props) => {
       { response != "" && !loading && (
         <FlexCol gap={4}>
           <ChatMessage themeName={ThemeSlug.PRIMARY} author={"Me"} message={message} />
-          <ChatMessage themeName={ThemeSlug.SECONDARY} author={"Bot"} message={response} />
+          <ChatMessage themeName={ThemeSlug.SECONDARY} author={"Bot"} isHTML={true} message={response} />
         </FlexCol>
       )}
     </FlexCol>
