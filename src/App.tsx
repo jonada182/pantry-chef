@@ -21,9 +21,9 @@ function App() {
 
   return (
     <div className="app container p-4 mx-auto">
-      <FlexCol gapSize={4}>
+      <FlexCol gap={4}>
       <PageHeading title="Chatbot UI"/>
-        <FlexRow gapSize={1}>
+        <FlexRow gap={1}>
           <TextInput value={message} isLoading={isLoading} handleOnChange={setMessage}/>
           <Button text="Send" loadingText="Sending" isLoading={isLoading} handleOnClick={handleSendMessageBtn} />
         </FlexRow>
