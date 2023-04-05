@@ -1,3 +1,5 @@
+import { gapSizes } from "../helpers";
+
 type Props = {
   children?: React.ReactNode;
   className?: string;
@@ -5,7 +7,7 @@ type Props = {
 };
 
 export function FlexRow({ children, className = ``, gap = 0 }: Props) {
-  const gapClass = `gap-${ gap }`;
+  const gapClass = gapSizes[gap];
   return (
     <div className={`flex flex-row ${gapClass} ${className}`}>{ children }</div>
   );
