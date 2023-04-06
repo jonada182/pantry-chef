@@ -10,7 +10,7 @@ export type Theme = {
   backgroundColour: string;
   textColour: string;
   roleColour?: string;
-  animation?: boolean;
+  animation?: string;
 };
 
 export type Themes = {

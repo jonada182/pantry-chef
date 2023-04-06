@@ -5,19 +5,19 @@ export const themes: Themes = {
     backgroundColour: "bg-primary",
     textColour: "text-black",
     roleColour: "",
-    animation: false,
+    animation: "",
   },
   secondary: {
     backgroundColour: "bg-gray-900",
     textColour: "text-white",
     roleColour: "text-primary",
-    animation: false,
+    animation: "",
   },
   neutral: {
     backgroundColour: "bg-gray-500",
     textColour: "text-white",
     roleColour: "",
-    animation: true,
+    animation: "animate-pulse",
   },
 };
 

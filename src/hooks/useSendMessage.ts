@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { API } from "../helpers";
+import { testMessage } from "./testData";
 
 interface SendMessageProps {
   message: string;
@@ -29,7 +30,7 @@ export const useSendMessage = (props :SendMessageProps): SendMessageResponse => 
       return;
 
     if (import.meta.env.APP_MOCK_API == "true")
-      return sendMockMessage();
+      return sendMockMessage(testMessage);
 
     setIsLoading(true);
 

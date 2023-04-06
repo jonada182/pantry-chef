@@ -1,7 +1,7 @@
 import { FlexCol } from "../FlexCol";
 import { ThemeName } from "./types";
 import { getTheme } from "./themes";
-import DOMPurify from "dompurify";
+import { formatHTML } from "../../helpers";
 
 type Props = {
   themeName: ThemeName;
@@ -13,9 +13,6 @@ type Props = {
 export function ChatMessage({ themeName, author, message, isHTML }: Props) {
 
   const theme = getTheme(themeName);
-  const safeMessageHTML = DOMPurify.sanitize(message, {
-    ALLOWED_TAGS: ["br"],
-  });
 
   return (
     <FlexCol className={`p-4 rounded ${theme.backgroundColour} ${theme.textColour}`}>
@@ -24,13 +21,13 @@ export function ChatMessage({ themeName, author, message, isHTML }: Props) {
         {author}
       </strong>
       { isHTML ? (
-      <span
-        className={`italic ${theme.animation}`}
-        dangerouslySetInnerHTML={{ __html: safeMessageHTML }}></span>
+      <div
+        className={`italic my-4 mr-8 ${theme.animation}`}
+        dangerouslySetInnerHTML={{ __html: formatHTML(message) }}></div>
       ) : (
-        <span className={`italic ${theme.animation}`}>
+        <div className={`italic ${theme.animation}`}>
           {message}
-        </span>
+        </div>
       )}
     </FlexCol>
   );
