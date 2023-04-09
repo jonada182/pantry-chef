@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { API } from "../helpers";
+import { api } from "../helpers";
 import { testMessage } from "./testData";
+import { MOCK_API } from "../helpers/constants";
 
 interface SendMessageProps {
   message: string;
@@ -29,13 +30,13 @@ export const useSendMessage = (props :SendMessageProps): SendMessageResponse => 
     if (message == "")
       return;
 
-    if (import.meta.env.APP_MOCK_API == "true")
+    if (MOCK_API == "true")
       return sendMockMessage(testMessage);
 
     setIsLoading(true);
 
     try {
-
+      const API = api.init();
       const response = await API.post("chat", {
         message: message,
       });
