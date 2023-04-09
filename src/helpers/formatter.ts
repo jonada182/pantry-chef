@@ -28,7 +28,12 @@ export const formatHTML = (text: string, formatURLS = false): string => {
         formattedText += `</${ listTag }>`;
       }
       if (line !== "") {
-        if (line.match(/^[A-Z][\w\s]*:/)) {
+        if (line.match(/(http:\/\/[^\s]+)/g) || line.match(/(https:\/\/[^\s]+)/g)) {
+          if (formatURLS) {
+            line = line.replace(/(http:\/\/[^\s]+)/g, `<a href="$1" target="_blank">$1</a>`);
+            line = line.replace(/(https:\/\/[^\s]+)/g, `<a href="$1" target="_blank">$1</a>`);
+          }
+        } else if (line.match(/^[A-Z][\w\s]*:/)) {
           line = `<strong class="font-bold">${ line }</strong>`;
         }
         formattedText += `<p class="mb-4">${ line }</p>`;
@@ -36,20 +41,9 @@ export const formatHTML = (text: string, formatURLS = false): string => {
     }
   }
 
-  if (formatURLS) {
-    // Replace URLs with <a> tags
-    formattedText = formattedText.replace(
-      /(http:\/\/[^\s]+)/g,
-      "<a href=\"$1\" target=\"_blank\">$1</a>",
-    );
-    formattedText = formattedText.replace(
-      /(https:\/\/[^\s]+)/g,
-      "<a href=\"$1\" target=\"_blank\">$1</a>",
-    );
-  }
-
   const sanitizedHTML = DOMPurify.sanitize(formattedText, {
-    ALLOWED_TAGS: ["br", "ul", "ol", "li", "p", "strong"],
+    ALLOWED_TAGS: ["br", "ul", "ol", "li", "p", "strong", "a"],
+    ALLOWED_ATTR: ["href", "target", "class"],
   });
 
   return sanitizedHTML;
