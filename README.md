@@ -38,6 +38,10 @@ Runs the app in production mode. Make sure to build the app before running this 
 
 Runs the ES linter to check for syntax errors and coding standards. The linter will report any issues in the console.
 
+### `npm run test`
+
+Runs all the tests with Jest.
+
 ## Environment Variables
 
 This project uses the following environment variables:
