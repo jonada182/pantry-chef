@@ -1,11 +1,11 @@
 import axios from "axios";
 import { api } from "../api";
 import { API_BASE_URL } from "../constants";
-
-jest.mock("axios");
-jest.mock("../constants", () => ({
+jest.mock("../constants", () =>({
   API_BASE_URL: "http://localhost/api",
 }));
+
+jest.mock("axios");
 
 test("API instance should create an axios instance with the correct baseURL and headers", async () => {
   const expectedBaseURL = API_BASE_URL;

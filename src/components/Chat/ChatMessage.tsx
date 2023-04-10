@@ -2,6 +2,7 @@ import { FlexCol } from "../FlexCol";
 import { ThemeName } from "./types";
 import { getTheme } from "./themes";
 import { formatHTML } from "../../helpers";
+import React from "react";
 
 type Props = {
   themeName: ThemeName;

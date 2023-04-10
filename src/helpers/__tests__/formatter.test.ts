@@ -1,6 +1,4 @@
 import { formatHTML } from "../formatter";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import DOMPurify from "dompurify";
 
 describe("formatHTML", () => {
   test("should sanitize the input and return sanitized HTML", () => {

@@ -1,3 +1,5 @@
+import React from "react";
+
 type Props = {
   text: string;
   loadingText: string;

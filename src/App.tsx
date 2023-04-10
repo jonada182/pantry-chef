@@ -5,17 +5,12 @@ import { PageHeading, TextInput, Button, FlexRow, FlexCol, Chat } from "./compon
 function App() {
 
   const [message, setMessage] = useState("");
-  const [chatMessage, setChatMessage] = useState("");
 
-  const { isLoading, responseMessage: chatResponse } = useSendMessage({ message: chatMessage });
+  const { isLoading, responseMessage: chatResponse, requestMessage, error, sendMessage } = useSendMessage();
 
-  const handleSendMessageBtn = async (event: React.MouseEvent) => {
+  const handleSendMessageBtn = (event: React.MouseEvent) => {
     event.stopPropagation();
-
-    if (message == "")
-      return;
-
-    setChatMessage(message);
+    sendMessage(message);
     setMessage("");
   };
 
@@ -27,7 +22,7 @@ function App() {
           <TextInput value={message} isLoading={isLoading} handleOnChange={setMessage}/>
           <Button text="Send" loadingText="Sending" isLoading={isLoading} handleOnClick={handleSendMessageBtn} />
         </FlexRow>
-        <Chat message={chatMessage} response={chatResponse} loading={isLoading} />
+        <Chat message={requestMessage} response={chatResponse} loading={isLoading} error={error} />
       </FlexCol>
     </div>
   );

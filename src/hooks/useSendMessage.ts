@@ -1,21 +1,28 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "../helpers";
 import { testMessage } from "./testData";
 import { MOCK_API } from "../helpers/constants";
 
-interface SendMessageProps {
-  message: string;
-}
-
-interface SendMessageResponse {
+type SendMessageResponse = {
   isLoading: boolean;
+  requestMessage: string;
   responseMessage: string;
-}
+  error: any;
+  sendMessage: (message: string) => void;
+};
 
-export const useSendMessage = (props :SendMessageProps): SendMessageResponse => {
+export const useSendMessage = (): SendMessageResponse => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
+  const [requestMessage, setRequestMessage] = useState("");
+  const [error, setError] = useState<Error | null>(null);
+
+  const resetVariables = () => {
+    setIsLoading(false);
+    setError(null);
+    setResponseMessage("");
+  };
 
   const sendMockMessage = (mockMessage: string = "mocked response") => {
     setIsLoading(true);
@@ -27,8 +34,11 @@ export const useSendMessage = (props :SendMessageProps): SendMessageResponse => 
 
   const sendMessage = async (message: string) => {
 
+    resetVariables();
+    setRequestMessage(message);
+
     if (message == "")
-      return;
+      return setError(Error("You can't send an empty message"));
 
     if (MOCK_API == "true")
       return sendMockMessage(testMessage);
@@ -43,27 +53,27 @@ export const useSendMessage = (props :SendMessageProps): SendMessageResponse => 
 
       setResponseMessage(response?.data?.message);
 
-    } catch (error: any) {
-      if (error.response) {
-        console.log("API Response Error:", error.message, error.response.status);
-      } else if (error.request) {
-        console.log("API Error:", error.message);
+    } catch (err: any) {
+      if (err.response) {
+        console.log("API Response Error:", err.message, err.response.status);
+      } else if (err.request) {
+        console.log("API Error:", err.message);
       } else {
-        console.log("Error", error.message);
+        console.log("Error", err.message);
       }
+      setError(err);
+    } finally {
+      setIsLoading(false);
     }
 
-    setIsLoading(false);
-
   };
-
-  useEffect(() => {
-    sendMessage(props.message);
-  }, [props.message]);
 
   return {
     isLoading: isLoading,
     responseMessage: responseMessage,
+    requestMessage: requestMessage,
+    error: error,
+    sendMessage: sendMessage,
   };
 
 };
