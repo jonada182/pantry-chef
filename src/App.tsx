@@ -1,29 +1,34 @@
-import React, { useState } from "react";
-import { useSendMessage } from "./hooks";
-import { PageHeading, TextInput, Button, FlexRow, FlexCol, Chat } from "./components";
+import React from "react";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { ErrorPage, Groceries, Home, Recipes } from "./pages";
+import { FlexCol } from "./components";
 
 function App() {
 
-  const [message, setMessage] = useState("");
-
-  const { isLoading, responseMessage: chatResponse, requestMessage, error, sendMessage } = useSendMessage();
-
-  const handleSendMessageBtn = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    sendMessage(message);
-    setMessage("");
-  };
-
   return (
-    <div className="app container p-4 mx-auto">
-      <FlexCol gap={4}>
-      <PageHeading title="Chatbot UI"/>
-        <FlexRow gap={1}>
-          <TextInput value={message} isLoading={isLoading} handleOnChange={setMessage}/>
-          <Button text="Send" loadingText="Sending" isLoading={isLoading} handleOnClick={handleSendMessageBtn} />
-        </FlexRow>
-        <Chat message={requestMessage} response={chatResponse} loading={isLoading} error={error} />
-      </FlexCol>
+    <div className="app w-full h-full">
+      <BrowserRouter>
+        <FlexCol>
+          <nav className="p-4 bg-gray-200">
+            <ul className="flex flex-row place-content-evenly">
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/recipes">Recipes</Link>
+              </li>
+              <li>
+                <Link to="/groceries">Groceries</Link>
+              </li>
+            </ul>
+          </nav>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/groceries" element={<Groceries />} errorElement={<ErrorPage />} />
+            <Route path="/recipes" element={<Recipes />} errorElement={<ErrorPage />} />
+          </Routes>
+        </FlexCol>
+      </BrowserRouter>
     </div>
   );
 }

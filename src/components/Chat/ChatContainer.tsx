@@ -10,7 +10,7 @@ interface Props {
   error?: any;
 }
 
-export const Chat = ({ message, response, loading, error }: Props) => {
+export const ChatContainer = ({ message, response, loading, error }: Props) => {
 
   return (
     <FlexCol>
