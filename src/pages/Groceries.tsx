@@ -1,13 +1,14 @@
 import React from "react";
+import { FlexCol, PageHeading } from "../components";
 
-type Props = {};
-
-const Groceries = (props: Props) => {
+const Groceries = () => {
   return (
-    <div>
-      <h1>Groceries</h1>
-      <p>Here's your grocery list.</p>
-    </div>
+    <FlexCol>
+      <PageHeading
+        title="Groceries"
+        description="Select the food items you have in your fridge to help you plan your next meal"
+      />
+    </FlexCol>
   );
 };
 
