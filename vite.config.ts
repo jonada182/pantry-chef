@@ -7,5 +7,6 @@ export default defineConfig({
   envPrefix: "APP_",
   server: {
     port: 3000,
+    host: true,
   }
 })

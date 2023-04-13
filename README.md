@@ -54,6 +54,35 @@ The base URL for the API. Default value is `http://localhost:8000`.
 
 A boolean value that determines whether to use a mock API response. Default value is `false`.
 
+## Using Docker for local development
+
+Docker can help you set up a consistent and isolated environment for developing your Vite React app. You can use Docker to run your app in both development and production modes using `docker-compose`. Here's how to get started:
+
+### Prerequisites
+
+Before you get started, you'll need to have Docker and `docker-compose` installed on your machine. You can download Docker for free from the [official Docker website](https://www.docker.com/products/docker-desktop), and `docker-compose` is usually included with Docker.
+
+#### Building the Docker image
+
+```
+docker-compose build
+
+```
+
+#### Run Docker container in Development mode
+
+```
+docker-compose up dev
+
+```
+
+#### Run Docker container in Production mode
+
+```
+docker-compose up prod
+
+```
+
 ## Learn More
 
 You can learn more about the Chat API in the [OpenAI documentation](https://platform.openai.com/docs/guides/chat)
