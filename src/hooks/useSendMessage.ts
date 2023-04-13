@@ -54,13 +54,6 @@ export const useSendMessage = (): SendMessageResponse => {
       setResponseMessage(response?.data?.message);
 
     } catch (err: any) {
-      if (err.response) {
-        console.log("API Response Error:", err.message, err.response.status);
-      } else if (err.request) {
-        console.log("API Error:", err.message);
-      } else {
-        console.log("Error", err.message);
-      }
       setError(err);
     } finally {
       setIsLoading(false);
