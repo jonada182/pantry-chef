@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { GroceryCategory } from "../types";
 import { api } from "../helpers";
+import { MOCK_API } from "../helpers/constants";
 
 export const useGetGroceries = (): [GroceryCategory[] | null, boolean, Error | null] => {
   const [data, setData] = useState<GroceryCategory[] | null>(null);
@@ -9,6 +10,15 @@ export const useGetGroceries = (): [GroceryCategory[] | null, boolean, Error | n
 
   const API = api.init();
   const getGroceries = async () => {
+
+    if (MOCK_API) {
+      const { allGroceries: testData } = await import("./testData");
+      setData(testData);
+      setError(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await API.get<GroceryCategory[]>("groceries").catch((res) => {
         throw new Error(`An error occurred: ${res.message}`);
