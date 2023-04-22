@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useGetGroceries } from "../hooks/useGetGroceries";
 import { GroceryCategory, GroceryItem } from "../types";
-import { Modal } from ".";
+import { Chip, Modal } from ".";
 
-const GroceryList = () => {
+export const GroceryList = () => {
   const [groceries, loading, error] = useGetGroceries();
 
   const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
@@ -19,7 +19,7 @@ const GroceryList = () => {
     setIsModalOpen(false);
   };
 
-  const addItem = (item: GroceryItem) => {
+  const addItem = (event: React.MouseEvent, item: GroceryItem) => {
     setSelectedItems((prevItems) => {
       if (!prevItems.includes(item)) {
         return [...prevItems, item];
@@ -28,7 +28,8 @@ const GroceryList = () => {
     });
   };
 
-  const removeItem = (item: GroceryItem) => {
+  const removeItem = (event: React.MouseEvent, item: GroceryItem) => {
+    event.stopPropagation();
     setSelectedItems((prevItems) => prevItems.filter((selectedItem) => selectedItem != item));
   };
 
@@ -54,40 +55,26 @@ const GroceryList = () => {
             </div>
           ))}
       </div>
-      <div className="w-full my-2 flex flex-col bg-gray-200">
-        <h3>Selected Items</h3>
-        <div>
-          <ul className="space-y-2">
+      { selectedItems.length > 0 && (
+        <div className="w-full my-2 flex flex-col bg-gray-200 p-4">
+          <h3 className="text-lg">Your selected Items</h3>
+          <div className="space-y-2">
             {selectedItems?.map((item: GroceryItem) => (
-              <li
-                key={item._id}
-                className="inline-block bg-gray-600 text-white text-xs px-3 py-1 rounded-full mr-1"
-                onClick={() => removeItem(item)}
-              >
-                {item.name}
-              </li>
+              <Chip key={item._id} name={item.name} handleOnClick={(e) => removeItem(e, item)} />
             ))}
-          </ul>
+          </div>
         </div>
-      </div>
+      )}
       <Modal show={isModalOpen} onClose={closeModal} title={selectedCategory?.name}>
-        <p className="text-gray-700">
-          This is a reusable modal with dynamic content using React, TypeScript, and Tailwind CSS.
+        <p className="text-gray-700 mb-4">
+          Please select all of the products that you currently own
         </p>
-        <ul className="space-y-2">
+        <div className="my-2 max-h-96 overflow-y-auto">
           {selectedCategory?.items?.map((item: GroceryItem) => (
-            <li
-              key={item._id}
-              className="inline-block bg-gray-600 text-white text-xs px-3 py-1 rounded-full mr-1"
-              onClick={() => addItem(item)}
-            >
-              {item.name}
-            </li>
+            <Chip key={item._id} name={item.name} handleOnClick={(e) => addItem(e, item)} />
           ))}
-        </ul>
+        </div>
       </Modal>
     </div>
   );
 };
-
-export { GroceryList };

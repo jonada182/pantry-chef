@@ -7,3 +7,4 @@ export { ChatContainer, ChatMessage } from "./Chat";
 export { Nav, NavLink } from "./Nav";
 export { GroceryList } from "./GroceryList";
 export { Modal } from "./Modal";
+export { Chip } from "./Chip";
