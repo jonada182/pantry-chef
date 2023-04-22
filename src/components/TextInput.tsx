@@ -1,8 +1,8 @@
 import React from "react";
 
 type Props = {
-  value: string;
-  isLoading: boolean;
+  value?: string;
+  isLoading?: boolean;
   handleOnChange: (value: string) => void;
 };
 
