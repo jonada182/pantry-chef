@@ -1,6 +1,7 @@
 import React from "react";
 import { GroceryCategory, GroceryItem } from "../../types";
 import { Chip, FlexCol, FlexRow } from "..";
+import { compareGroceryItems } from "../../helpers";
 
 type Props = {
   groceries: GroceryCategory[] | null;
@@ -13,7 +14,7 @@ export const GrocerySelectedItems = ({ groceries, selectedItemIds, handleOnClick
   const renderSelectedItems = () => {
     const allItems = groceries?.flatMap((category: GroceryCategory) => category.items);
     const selectedItems = allItems?.filter((item: GroceryItem) => ( selectedItemIds.indexOf(item._id) >= 0));
-    return selectedItems?.map((item) => (
+    return selectedItems?.sort(compareGroceryItems).map((item) => (
       <Chip key={item._id} name={item.name} handleOnClick={(e) => handleOnClick(e, item._id, "remove")} />
     ));
   };

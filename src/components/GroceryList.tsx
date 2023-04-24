@@ -3,6 +3,7 @@ import { useGetGroceries } from "../hooks/useGetGroceries";
 import { GroceryCategory, GroceryItem } from "../types";
 import { Chip, FlexCol, GroceryCategoryCard, Modal } from ".";
 import { GrocerySelectedItems } from "./Groceries/GrocerySelectedItems";
+import { compareGroceryItems } from "../helpers";
 
 export const GroceryList = () => {
   const [groceries, loading, error] = useGetGroceries();
@@ -70,7 +71,7 @@ export const GroceryList = () => {
         title={selectedCategory?.name}
         description="Please select the items you have at home from the list below to update your inventory.">
         <div className="my-2 max-h-96 overflow-y-auto">
-          {selectedCategory?.items?.map((item: GroceryItem) => {
+          {selectedCategory?.items?.sort(compareGroceryItems).map((item: GroceryItem) => {
             // Not very performance efficient. May need some refactoring
             const isSelectedItem: boolean = selectedItemIds.indexOf(item._id) < 0 ? false : true;
             const action = isSelectedItem ? "remove" : "add";
