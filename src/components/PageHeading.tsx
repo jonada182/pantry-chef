@@ -8,7 +8,7 @@ type Props = {
 
 export function PageHeading({ title, description }: Props) {
   return (
-    <FlexCol gap={4} className="p-4 mb-4">
+    <FlexCol gap={4} className="my-8">
       <h3 className="text-2xl font-bold text-primary-text">
       {title}
     </h3>

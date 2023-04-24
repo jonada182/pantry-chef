@@ -1,14 +1,14 @@
 import React from "react";
-import { FlexCol, PageHeading } from "../components";
+import { Page, PageHeading } from "../components";
 
 const Home = () => {
   return (
-    <FlexCol>
+    <Page>
       <PageHeading
         title="Welcome"
         description="Find recipes, create grocery lists, and more in one place."
       />
-    </FlexCol>
+    </Page>
   );
 };
 

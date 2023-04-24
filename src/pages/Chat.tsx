@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSendMessage } from "../hooks";
-import { PageHeading, TextInput, Button, FlexRow, FlexCol, ChatContainer } from "../components";
+import { PageHeading, TextInput, Button, FlexRow, ChatContainer, Page } from "../components";
 
 const Chat = () => {
 
@@ -16,14 +16,14 @@ const Chat = () => {
 
   return (
     <div className="app container p-4 mx-auto">
-      <FlexCol gap={4}>
+    <Page>
       <PageHeading title="Chatbot UI"/>
         <FlexRow gap={1}>
           <TextInput value={message} isLoading={isLoading} handleOnChange={setMessage}/>
           <Button text="Send" loadingText="Sending" isLoading={isLoading} handleOnClick={handleSendMessageBtn} />
         </FlexRow>
         <ChatContainer message={requestMessage} response={chatResponse} loading={isLoading} error={error} />
-      </FlexCol>
+      </Page>
     </div>
   );
 };

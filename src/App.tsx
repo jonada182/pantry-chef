@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="app w-full h-full">
       <BrowserRouter>
-        <FlexCol>
+        <FlexCol className="h-full">
           <Nav>
             <NavLink title="Home" url="/"/>
             <NavLink title="Recipes" url="/recipes"/>

@@ -8,5 +8,5 @@ export interface GroceryCategory {
   _id: string;
   name: string;
   slug: string;
-  items?: GroceryItem[];
+  items: GroceryItem[];
 }

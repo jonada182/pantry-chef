@@ -1,11 +1,12 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { Page } from "../components";
 
 const ErrorPage = () => {
   const location = useLocation();
 
   return (
-    <div>There was an error when loading {location.pathname}</div>
+    <Page>There was an error when loading {location.pathname}</Page>
   );
 };
 
