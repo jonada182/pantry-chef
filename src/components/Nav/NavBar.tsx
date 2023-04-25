@@ -6,7 +6,7 @@ type Props = {
   direction?: "vertical" | "horizontal"
 };
 
-const Nav = ({ children, direction = "horizontal" }: Props) => {
+const NavBar = ({ children, direction = "horizontal" }: Props) => {
   if (direction == "vertical") {
     return (
       <FlexCol className="place-content-evenly bg-primary text-white font-bold">
@@ -16,10 +16,10 @@ const Nav = ({ children, direction = "horizontal" }: Props) => {
   }
 
   return (
-    <FlexRow className="place-content-evenly bg-primary text-white font-bold">
+    <FlexRow id="nav-bar" className="place-content-evenly bg-primary text-white font-bold">
       { children }
     </FlexRow>
   );
 };
 
-export { Nav };
+export { NavBar };

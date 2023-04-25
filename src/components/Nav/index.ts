@@ -1,2 +1,2 @@
-export { Nav } from "./Nav";
-export { NavLink } from "./NavLink";
+export { NavBar } from "./NavBar";
+export { NavBarLink } from "./NavBarLink";

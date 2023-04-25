@@ -6,7 +6,7 @@ const Recipes = () => {
     <Page>
       <PageHeading
         title="Recipes"
-        description="Check out some of our delicious recipes."
+        description="Here is a list of your favourite recipes."
       />
     </Page>
   );
