@@ -1,12 +1,21 @@
 import React from "react";
-import { FlexCol } from ".";
+import { ErrorMessage, FlexCol, LoadingMessage, PageHeading } from ".";
 
 type Props = {
+  title?: string;
+  description?: string;
+  isLoading?: boolean;
+  error?: Error | null;
   children?: React.ReactNode;
 };
 
-export const Page = ({ children }: Props) => {
+export const Page = ({ title, description, isLoading, error, children }: Props) => {
   return (
-    <FlexCol className="p-4 h-full">{ children }</FlexCol>
+    <FlexCol className="p-4 h-full">
+      { title && <PageHeading title={title} description={description} /> }
+      { isLoading && <LoadingMessage />}
+      { error && <ErrorMessage error={error} />}
+      { !isLoading && !error && children }
+    </FlexCol>
   );
 };

@@ -11,7 +11,7 @@ export const useGetGroceries = (): [GroceryCategory[] | null, boolean, Error | n
   const API = api.init();
   const getGroceries = async () => {
 
-    if (MOCK_API == "true"){
+    if (MOCK_API == "true") {
       const { allGroceries: testData } = await import("./testData");
       setData(testData);
       setError(null);

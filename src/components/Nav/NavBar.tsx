@@ -9,14 +9,14 @@ type Props = {
 const NavBar = ({ children, direction = "horizontal" }: Props) => {
   if (direction == "vertical") {
     return (
-      <FlexCol className="place-content-evenly bg-primary text-white font-bold">
+      <FlexCol className="place-content-evenly bg-primary text-primary-text font-bold">
         { children }
       </FlexCol>
     );
   }
 
   return (
-    <FlexRow id="nav-bar" className="place-content-evenly bg-primary text-white font-bold">
+    <FlexRow id="nav-bar" className="place-content-evenly bg-primary text-primary-text font-bold">
       { children }
     </FlexRow>
   );

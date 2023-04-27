@@ -1,13 +1,12 @@
 import React from "react";
-import { Button, Card, Page, PageHeading } from "../components";
+import { Button, Card, Page } from "../components";
 
 const Home = () => {
   return (
-    <Page>
-      <PageHeading
-        title="Welcome"
-        description="Find recipes, create grocery lists, and more in one place."
-      />
+    <Page
+      title="Welcome"
+      description="Find recipes, create grocery lists, and more in one place."
+    >
       <Card>
         TODO: select a meat (if any available)
       </Card>
@@ -17,7 +16,7 @@ const Home = () => {
       <Card>
         TODO: select additional products (if any available)
       </Card>
-      <Button handleOnClick={() => console.log("Find recipe")} text="Find me a recipe"/>
+      <Button isCentered={true} handleOnClick={() => console.log("Find recipe")} text="Find me a recipe"/>
     </Page>
   );
 };
