@@ -1,22 +1,34 @@
 import React from "react";
-import { Button, Card, Page } from "../components";
+import { Button, Card, GroceryItems, Page } from "../components";
+import { useGetGroceries } from "../hooks";
+import { getMyGroceries } from "../helpers";
+import { getItemsByCategorySlug } from "../helpers";
 
 const Home = () => {
+  const [groceries, loading, error] = useGetGroceries();
+  const selectedItemIds = getMyGroceries();
+
+  const myMeats = getItemsByCategorySlug(groceries, ["meat"], selectedItemIds);
+  const myProduce = getItemsByCategorySlug(groceries, ["produce"], selectedItemIds);
+  const myAdditionalItems = getItemsByCategorySlug(groceries, ["pantry", "bakery"], selectedItemIds);
+
   return (
     <Page
       title="Welcome"
       description="Find recipes, create grocery lists, and more in one place."
+      isLoading={loading}
+      error={error}
     >
       <Card>
-        TODO: select a meat (if any available)
+        <GroceryItems groceryItems={myMeats}/>
       </Card>
       <Card>
-        TODO: select some vegetables (if any available)
+        <GroceryItems groceryItems={myProduce}/>
       </Card>
       <Card>
-        TODO: select additional products (if any available)
+        <GroceryItems groceryItems={myAdditionalItems}/>
       </Card>
-      <Button isCentered={true} handleOnClick={() => console.log("Find recipe")} text="Find me a recipe"/>
+      <Button isLoading={true} isCentered={true} handleOnClick={() => console.log("Find recipe")} text="Find me a recipe"/>
     </Page>
   );
 };

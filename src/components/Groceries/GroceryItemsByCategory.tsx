@@ -16,7 +16,12 @@ export const GroceryItemsByCategory = ({ selectedCategory, selectedItemIds, hand
         // Not very performance efficient. May need some refactoring
         const isSelectedItem: boolean = selectedItemIds && selectedItemIds.indexOf(item._id) < 0 ? false : true;
         const action = isSelectedItem ? "remove" : "add";
-        return <Chip key={item._id} name={item.name} isSelected={isSelectedItem} handleOnClick={(e) => handleOnClick(e, item._id, action)} />;
+        return <Chip
+          key={item._id}
+          name={item.name}
+          isSelected={isSelectedItem}
+          handleOnClick={(e) => handleOnClick(e, item._id, action)}
+        />;
       })}
     </div>
   );

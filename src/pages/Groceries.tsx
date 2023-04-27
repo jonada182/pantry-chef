@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useGetGroceries } from "../hooks/useGetGroceries";
 import { GroceryCategory } from "../types";
-import {
-  Page,
+import { Page,
   FlexCol,
   GroceryCategories,
   GrocerySelectedItems,
   Modal,
-  GroceryItemsByCategory,
-} from "../components";
+  GroceryItemsByCategory } from "../components";
+import { getMyGroceries, storeMyGroceries } from "../helpers";
 
 const Groceries = () => {
   const [groceries, loading, error] = useGetGroceries();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
-  const [selectedItemIds, setSelectedItemIds] = useState<string[]>(() => {
-    // Retrieve selectedItems from localStorage
-    const storedSelectedItemsJson = localStorage.getItem("groceryInventoryItemIds");
-    const storedSelectedItems: string[] = storedSelectedItemsJson ? JSON.parse(storedSelectedItemsJson) : [];
-    return storedSelectedItems;
-  });
+  const [selectedItemIds, setSelectedItemIds] = useState<string[]>(getMyGroceries);
 
   useEffect(() => {
-    // Save selectedItems to localStorage
-    localStorage.setItem("groceryInventoryItemIds", JSON.stringify(selectedItemIds));
+    storeMyGroceries(selectedItemIds);
   }, [selectedItemIds]);
 
 

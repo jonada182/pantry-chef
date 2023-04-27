@@ -6,7 +6,9 @@ export { TextInput } from "./TextInput";
 export { Button } from "./Button";
 export { ChatContainer, ChatMessage } from "./Chat";
 export { NavBar, NavBarLink } from "./Nav";
-export { GroceryCategories, GroceryCategoryCard, GrocerySelectedItems, GroceryItemsByCategory } from "./Groceries";
+export {
+  GroceryCategories, GroceryCategoryCard, GrocerySelectedItems, GroceryItemsByCategory, GroceryItems,
+} from "./Groceries";
 export { Modal } from "./Modal";
 export { Chip } from "./Chip";
 export { Card } from "./Card";

@@ -9,7 +9,7 @@ type Props = {
   handleOnClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export function Button({ text, isSmall, loadingText, isLoading, isCentered, handleOnClick }: Props) {
+export function Button({ text, isSmall, loadingText = "Loading...", isLoading, isCentered, handleOnClick }: Props) {
   return (
     <button
       type="button"

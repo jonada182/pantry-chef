@@ -24,7 +24,9 @@ export function ChatMessage({ themeName, author, message, isHTML }: Props) {
       { isHTML ? (
       <div
         className={`italic my-4 mr-8 ${theme.animation}`}
-        dangerouslySetInnerHTML={{ __html: formatHTML(message) }}></div>
+        dangerouslySetInnerHTML={{
+          __html: formatHTML(message), 
+        }}></div>
       ) : (
         <div className={`italic ${theme.animation}`}>
           {message}
