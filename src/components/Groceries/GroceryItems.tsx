@@ -12,14 +12,18 @@ export const GroceryItems = ({ groceryItems, handleOnClick }: Props) => {
 
   const renderSelectedItems = () => {
     return groceryItems?.sort(compareGroceryItems).map((item) => (
-      <Chip key={item._id} name={item.name} handleOnClick={(e) => handleOnClick && handleOnClick(e, item)} />
+      <Chip
+        key={item._id}
+        name={item.name}
+        isSelected={item.isSelected}
+        handleOnClick={(e) => handleOnClick && handleOnClick(e, item)}
+      />
     ));
   };
 
   return (
-    <FlexCol className="w-full my-4">
-      <h3 className="">Your selected Items</h3>
-      <FlexRow className="my-2 items-center content-center flex-wrap">
+    <FlexCol className="w-full">
+      <FlexRow className="items-center content-center flex-wrap">
         {renderSelectedItems()}
       </FlexRow>
     </FlexCol>

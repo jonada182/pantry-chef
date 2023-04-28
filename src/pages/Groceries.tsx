@@ -10,7 +10,7 @@ import { Page,
 import { getMyGroceries, storeMyGroceries } from "../helpers";
 
 const Groceries = () => {
-  const [groceries, loading, error] = useGetGroceries();
+  const { data: groceries, loading, error } = useGetGroceries();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>(getMyGroceries);

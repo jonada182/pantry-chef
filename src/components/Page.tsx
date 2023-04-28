@@ -11,7 +11,7 @@ type Props = {
 
 export const Page = ({ title, description, isLoading, error, children }: Props) => {
   return (
-    <FlexCol className="p-4 h-full">
+    <FlexCol className="p-4 mb-8">
       { title && <PageHeading title={title} description={description} /> }
       { isLoading && <LoadingMessage />}
       { error && <ErrorMessage error={error} />}

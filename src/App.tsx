@@ -5,9 +5,9 @@ import { FlexCol, NavBar, NavBarLink } from "./components";
 
 const App = () => {
   return (
-    <div className="app w-full h-full">
+    <FlexCol className="app flex-grow">
       <BrowserRouter>
-        <FlexCol className="h-full">
+        <FlexCol>
           <NavBar>
             <NavBarLink title="Home" url="/"/>
             <NavBarLink title="Groceries" url="/groceries"/>
@@ -20,7 +20,7 @@ const App = () => {
           </Routes>
         </FlexCol>
       </BrowserRouter>
-    </div>
+    </FlexCol>
   );
 };
 

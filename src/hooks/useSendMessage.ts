@@ -7,7 +7,7 @@ type SendMessageResponse = {
   isLoading: boolean;
   requestMessage: string;
   responseMessage: string;
-  error: any;
+  error: Error | null;
   sendMessage: (message: string) => void;
 };
 
