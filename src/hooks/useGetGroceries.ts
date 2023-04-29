@@ -3,7 +3,13 @@ import { GroceryCategory } from "../types";
 import { api } from "../helpers";
 import { MOCK_API } from "../helpers/constants";
 
-export const useGetGroceries = (): { data: GroceryCategory[] | null, loading: boolean, error: Error | null } => {
+type Return = {
+  data: GroceryCategory[] | null,
+  loading: boolean,
+  error: Error | null,
+};
+
+export const useGetGroceries = (): Return => {
   const [data, setData] = useState<GroceryCategory[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -35,7 +41,5 @@ export const useGetGroceries = (): { data: GroceryCategory[] | null, loading: bo
     getGroceries();
   }, []);
 
-  return {
-    data, loading, error,
-  };
+  return { data, loading, error };
 };

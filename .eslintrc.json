@@ -51,7 +51,7 @@
     ],
     "max-len": ["error", { "code": 120, "ignoreUrls": true, "ignoreComments": true, "ignoreTrailingComments": true, "ignoreStrings": true, "ignoreTemplateLiterals": true, "ignoreRegExpLiterals": true, "ignorePattern": "import\\s.+\\{\\s.+\\s{2,}" }],
     "object-curly-newline": ["error", {
-      "ObjectExpression": "always",
+      "ObjectExpression": { "multiline": true },
       "ObjectPattern": { "multiline": true },
       "ImportDeclaration": "never",
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }

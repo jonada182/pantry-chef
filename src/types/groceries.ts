@@ -11,3 +11,5 @@ export interface GroceryCategory {
   slug: string;
   items: GroceryItem[];
 }
+
+export type MyGroceries = Record<string, GroceryItem[]>;

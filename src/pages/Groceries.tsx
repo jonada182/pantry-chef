@@ -19,7 +19,6 @@ const Groceries = () => {
     storeMyGroceries(selectedItemIds);
   }, [selectedItemIds]);
 
-
   const openModal = (category: GroceryCategory) => {
     setSelectedCategory(category);
     setIsModalOpen(true);

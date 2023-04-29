@@ -4,7 +4,7 @@ import { Chip, FlexCol, FlexRow } from "..";
 import { compareGroceryItems } from "../../helpers";
 
 type Props = {
-  groceryItems: GroceryItem[] | null;
+  groceryItems?: GroceryItem[];
   handleOnClick?: (event: React.MouseEvent<HTMLDivElement>, item: GroceryItem) => void;
 };
 

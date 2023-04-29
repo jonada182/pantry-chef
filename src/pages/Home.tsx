@@ -1,41 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, GroceryItems, Page } from "../components";
 import { useGetGroceries, useSendMessage } from "../hooks";
-import { getMyGroceries } from "../helpers";
-import { getItemsByCategorySlug } from "../helpers";
-import { GroceryItem, Ingredient } from "../types";
+import { getMyGroceries, getMyGroceriesByCategory } from "../helpers";
+import { GroceryItem, Ingredient, MyGroceries } from "../types";
 
 const Home = () => {
-  const { data: groceries, loading: groceriesLoading, error: groceriesError } = useGetGroceries();
-  const { error: messageError, isLoading: messageLoading, responseMessage, sendMessage } = useSendMessage();
+  const selectedItemIds = getMyGroceries();
+  const {
+    data: groceriesData,
+    loading: groceriesLoading,
+    error: groceriesError,
+  } = useGetGroceries();
+  const { error: messageError, loading: messageLoading, responseMessage, sendMessage } = useSendMessage();
   const error = groceriesError || messageError;
   const loading = groceriesLoading || messageLoading;
 
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const selectedItemIds = getMyGroceries();
-
-  const [myMeats, setMyMeats] = useState<GroceryItem[]>([]);
-  const [myProduce, setMyProduce] = useState<GroceryItem[]>([]);
-  const [myAdditionalItems, setMyAdditionalItems] = useState<GroceryItem[]>([]);
+  const [myGroceryItems, setMyGroceryItems] = useState<MyGroceries | null>(null);
 
   useEffect(() => {
-    setMyMeats(getItemsByCategorySlug(groceries, ["meat"], selectedItemIds));
-    setMyProduce(getItemsByCategorySlug(groceries, ["produce"], selectedItemIds));
-    setMyAdditionalItems(getItemsByCategorySlug(groceries, ["pantry", "bakery"], selectedItemIds));
-  }, [groceries]);
+    setMyGroceryItems(getMyGroceriesByCategory(groceriesData, selectedItemIds));
+  }, [groceriesData]);
 
-  const changeItemStatus = (items: GroceryItem[], item: GroceryItem) => {
-    return items.map(i => {
-      if (i._id == item._id) {
-        return {
-          ...i, isSelected: !i.isSelected,
-        };
-      }
-      return i;
-    });
-  };
-
-  const addIngredient = (event: React.MouseEvent<HTMLDivElement>, item: GroceryItem, category = "") => {
+  const addIngredient = (event: React.MouseEvent<HTMLDivElement>, item: GroceryItem) => {
     event.stopPropagation();
     const ingredient: Ingredient = {
       name: item.name,
@@ -49,18 +36,16 @@ const Home = () => {
       return prev;
     });
 
-    switch (category) {
-      case "meats":
-        setMyMeats(changeItemStatus(myMeats, item));
-        break;
-      case "produce":
-        setMyProduce(changeItemStatus(myProduce, item));
-        break;
-
-      default:
-        setMyAdditionalItems(changeItemStatus(myAdditionalItems, item));
-        break;
-    }
+    setMyGroceryItems(myGroceries => {
+      for (const key in myGroceries) {
+        myGroceries[key].map(i => {
+          if (i._id == item._id)
+            i.isSelected = !i.isSelected;
+          return true;
+        });
+      }
+      return myGroceries;
+    });
   };
 
   const findRecipe = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -78,13 +63,13 @@ const Home = () => {
       { !responseMessage && (
         <>
           <Card title="Meats" description="Choose one meat from your groceries to start.">
-            <GroceryItems groceryItems={myMeats} handleOnClick={(e, item) => addIngredient(e, item, "meats")}/>
+            <GroceryItems groceryItems={myGroceryItems?.meat} handleOnClick={addIngredient}/>
           </Card>
           <Card title="Produce" description="Next, pick some of your produce items.">
-            <GroceryItems groceryItems={myProduce} handleOnClick={(e, item) => addIngredient(e, item, "produce")}/>
+            <GroceryItems groceryItems={myGroceryItems?.produce} handleOnClick={addIngredient}/>
           </Card>
           <Card title="Additional Ingredients">
-            <GroceryItems groceryItems={myAdditionalItems} handleOnClick={(e, item) => addIngredient(e, item)}/>
+            <GroceryItems groceryItems={myGroceryItems?.additional} handleOnClick={addIngredient}/>
           </Card>
           <Button isCentered={true} handleOnClick={(e) => findRecipe(e)} text="Find me a recipe"/>
         </>

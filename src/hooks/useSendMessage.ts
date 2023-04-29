@@ -4,7 +4,7 @@ import { testMessage } from "./testData";
 import { MOCK_API } from "../helpers/constants";
 
 type SendMessageResponse = {
-  isLoading: boolean;
+  loading: boolean;
   requestMessage: string;
   responseMessage: string;
   error: Error | null;
@@ -13,22 +13,22 @@ type SendMessageResponse = {
 
 export const useSendMessage = (): SendMessageResponse => {
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [requestMessage, setRequestMessage] = useState("");
   const [error, setError] = useState<Error | null>(null);
 
   const resetVariables = () => {
-    setIsLoading(false);
+    setLoading(false);
     setError(null);
     setResponseMessage("");
   };
 
   const sendMockMessage = (mockMessage: string = "mocked response") => {
-    setIsLoading(true);
+    setLoading(true);
     setTimeout(() => {
       setResponseMessage(mockMessage);
-      setIsLoading(false);
+      setLoading(false);
     }, 2000);
   };
 
@@ -43,26 +43,24 @@ export const useSendMessage = (): SendMessageResponse => {
     if (MOCK_API == "true")
       return sendMockMessage(testMessage);
 
-    setIsLoading(true);
+    setLoading(true);
 
     try {
       const API = api.init();
-      const response = await API.post("chat", {
-        message: message,
-      });
+      const response = await API.post("chat", { message: message });
 
       setResponseMessage(response?.data?.message);
 
     } catch (err: any) {
       setError(err);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
 
   };
 
   return {
-    isLoading: isLoading,
+    loading: loading,
     responseMessage: responseMessage,
     requestMessage: requestMessage,
     error: error,
