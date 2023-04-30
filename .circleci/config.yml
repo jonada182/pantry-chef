@@ -21,6 +21,8 @@ jobs:
           paths:
             - dist
   deploy:
+    docker:
+      - image: cimg/node:19.8.1
     steps:
       - attach_workspace:
           at: ~/chatbot-ui
