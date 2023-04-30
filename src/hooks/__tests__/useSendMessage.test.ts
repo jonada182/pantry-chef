@@ -8,26 +8,33 @@ jest.mock("axios");
 
 describe("useSendMessage", () => {
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  const requestMessage = "Hi bot";
+
   it("should send a message and return a response", async () => {
-    const responseData = { success: true };
+    const responseData = { message: "Hello world!" };
     const mockAxios = axios as jest.Mocked<typeof axios>;
     mockAxios.create.mockImplementation(() => axios );
-    mockAxios.post.mockResolvedValueOnce(responseData);
+    mockAxios.post.mockResolvedValueOnce({ data: responseData });
 
-    const { result, rerender } = renderHook(() => useSendMessage());
+    const { result } = renderHook(() => useSendMessage());
 
     act(() => {
-      result.current.sendMessage("test message");
+      result.current.sendMessage(requestMessage);
     });
 
-    rerender();
+    expect(mockAxios.post).toBeCalledWith("chat", { message: requestMessage });
+    expect(mockAxios.post).toBeCalledTimes(1);
 
     expect(result.current.loading).toBe(true);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(result.current.loading).toBe(false);
       expect(result.current.error).toBeNull();
-      expect(result.current.responseMessage).toBe(responseData);
+      expect(result.current.responseMessage).toBe(responseData.message);
     });
   });
 
@@ -41,8 +48,11 @@ describe("useSendMessage", () => {
     const { result } = renderHook(() => useSendMessage());
 
     act(() => {
-      result.current.sendMessage("test message");
+      result.current.sendMessage(requestMessage);
     });
+
+    expect(mockAxios.post).toBeCalledWith("chat", { message: requestMessage });
+    expect(mockAxios.post).toBeCalledTimes(1);
 
     expect(result.current.loading).toBe(false);
     expect(result.current.error).not.toBeNull();

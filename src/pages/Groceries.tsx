@@ -28,8 +28,7 @@ const Groceries = () => {
     setIsModalOpen(false);
   };
 
-  const handleChipClick = (event: React.MouseEvent, itemId: string, action: "add" | "remove") => {
-    event.stopPropagation();
+  const handleChipClick = (itemId: string, action: "add" | "remove") => {
 
     if (action === "add") {
       setSelectedItemIds((prevItems) => {

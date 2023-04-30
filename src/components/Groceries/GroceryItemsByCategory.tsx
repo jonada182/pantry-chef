@@ -6,7 +6,7 @@ import { GroceryCategory, GroceryItem } from "../../types";
 type Props = {
   selectedCategory?: GroceryCategory | null;
   selectedItemIds?: string[];
-  handleOnClick: (event: React.MouseEvent<HTMLDivElement>, id: string, action: "add" | "remove") => void;
+  handleOnClick: (id: string, action: "add" | "remove") => void;
 };
 
 export const GroceryItemsByCategory = ({ selectedCategory, selectedItemIds, handleOnClick }: Props) => {
@@ -20,7 +20,7 @@ export const GroceryItemsByCategory = ({ selectedCategory, selectedItemIds, hand
           key={item._id}
           name={item.name}
           isSelected={isSelectedItem}
-          handleOnClick={(e) => handleOnClick(e, item._id, action)}
+          handleOnClick={() => handleOnClick(item._id, action)}
         />;
       })}
     </div>

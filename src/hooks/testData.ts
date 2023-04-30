@@ -209,3 +209,26 @@ export const groceryCategories = [
     slug: "pantry",
   },
 ];
+
+export const testRecipe = {
+  image_url: "src/assets/img/recipe_image.jpg",
+  message: {
+    title: "Chicken and Onion Stir-Fry",
+    ingredients: [
+      "1 lb chicken breast, sliced into thin strips",
+      "2 medium onions, sliced",
+      "2 tbsp vegetable oil",
+      "2 tbsp soy sauce",
+      "1 tbsp cornstarch",
+      "1 tsp garlic powder",
+      "1/2 tsp black pepper",
+    ],
+    instructions: [
+      "In a small bowl, mix together soy sauce, cornstarch, garlic powder and black pepper. Set aside.",
+      "Heat the vegetable oil in a large skillet over medium-high heat. Add the chicken and cook until no longer pink, about 5 minutes.",
+      "Add the sliced onions to the skillet and cook until they are softened and slightly caramelized, about 5-7 minutes.",
+      "Stir in the soy sauce mixture and continue to cook for an additional 2-3 minutes, or until the sauce has thickened and evenly coated the chicken and onions.",
+      "Serve hot and enjoy!",
+    ],
+  },
+};

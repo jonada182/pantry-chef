@@ -9,6 +9,10 @@ jest.mock("axios");
 
 describe("useGetGroceries", () => {
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   it("should call groceries API and return a response", async () => {
     const responseData: GroceryCategory[] = [
       {
@@ -27,14 +31,18 @@ describe("useGetGroceries", () => {
     ];
     const mockAxios = axios as jest.Mocked<typeof axios>;
     mockAxios.create.mockImplementation(() => axios );
-    mockAxios.post.mockResolvedValueOnce(responseData);
+    mockAxios.get.mockResolvedValueOnce({ data: responseData });
 
     const { result } = renderHook(() => useGetGroceries());
 
-    waitFor(() => {
+    expect(mockAxios.get).toBeCalledWith("groceries");
+    expect(mockAxios.get).toBeCalledTimes(1);
+    expect(result.current.loading).toBe(true);
+
+    await waitFor(() => {
       expect(result.current.loading).toBe(false);
       expect(result.current.error).toBeNull();
-      expect(result.current.data).toBe(responseData);
+      expect(result.current.data).toStrictEqual(responseData);
     });
   });
 
@@ -46,6 +54,9 @@ describe("useGetGroceries", () => {
     });
 
     const { result } = renderHook(() => useGetGroceries());
+
+    expect(mockAxios.get).toBeCalledWith("groceries");
+    expect(mockAxios.get).toBeCalledTimes(1);
 
     expect(result.current.loading).toBe(false);
     expect(result.current.error).not.toBeNull();

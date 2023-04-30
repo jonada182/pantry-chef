@@ -5,7 +5,7 @@ import { compareGroceryItems } from "../../helpers";
 
 type Props = {
   groceryItems?: GroceryItem[];
-  handleOnClick?: (event: React.MouseEvent<HTMLDivElement>, item: GroceryItem) => void;
+  handleOnClick?: (item: GroceryItem) => void;
 };
 
 export const GroceryItems = ({ groceryItems, handleOnClick }: Props) => {
@@ -16,7 +16,7 @@ export const GroceryItems = ({ groceryItems, handleOnClick }: Props) => {
         key={item._id}
         name={item.name}
         isSelected={item.isSelected}
-        handleOnClick={(e) => handleOnClick && handleOnClick(e, item)}
+        handleOnClick={() => handleOnClick && handleOnClick(item)}
       />
     ));
   };

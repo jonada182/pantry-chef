@@ -9,6 +9,7 @@ type SendMessageResponse = {
   responseMessage: string;
   error: Error | null;
   sendMessage: (message: string) => void;
+  resetMessage: () => void;
 };
 
 export const useSendMessage = (): SendMessageResponse => {
@@ -18,7 +19,7 @@ export const useSendMessage = (): SendMessageResponse => {
   const [requestMessage, setRequestMessage] = useState("");
   const [error, setError] = useState<Error | null>(null);
 
-  const resetVariables = () => {
+  const resetState = () => {
     setLoading(false);
     setError(null);
     setResponseMessage("");
@@ -34,7 +35,7 @@ export const useSendMessage = (): SendMessageResponse => {
 
   const sendMessage = async (message: string) => {
 
-    resetVariables();
+    resetState();
     setRequestMessage(message);
 
     if (message == "")
@@ -65,6 +66,7 @@ export const useSendMessage = (): SendMessageResponse => {
     requestMessage: requestMessage,
     error: error,
     sendMessage: sendMessage,
+    resetMessage: resetState,
   };
 
 };
