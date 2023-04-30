@@ -6,7 +6,7 @@ const Chat = () => {
 
   const [message, setMessage] = useState("");
 
-  const { isLoading, responseMessage: chatResponse, requestMessage, error, sendMessage } = useSendMessage();
+  const { loading: isLoading, responseMessage: chatResponse, requestMessage, error, sendMessage } = useSendMessage();
 
   const handleSendMessageBtn = (event: React.MouseEvent) => {
     event.stopPropagation();
