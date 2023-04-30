@@ -2,6 +2,7 @@ export interface GroceryItem {
   _id: string;
   name: string;
   slug: string;
+  categoryId: string;
   isSelected?: boolean;
 }
 

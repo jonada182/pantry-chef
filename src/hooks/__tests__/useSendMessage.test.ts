@@ -8,9 +8,6 @@ jest.mock("axios");
 
 describe("useSendMessage", () => {
 
-  beforeEach(() => {
-  });
-
   it("should send a message and return a response", async () => {
     const responseData = { success: true };
     const mockAxios = axios as jest.Mocked<typeof axios>;
