@@ -2,6 +2,7 @@ import React from "react";
 import { FlexCol } from "../FlexCol";
 import { ChatMessage } from "./ChatMessage";
 import { ThemeSlug } from "./types";
+import { ErrorMessage } from "../ErrorMessage";
 
 interface Props {
   message: string;
@@ -21,7 +22,7 @@ export const ChatContainer = ({ message, response, loading, error }: Props) => {
           <ChatMessage themeName={ThemeSlug.SECONDARY} author={"Bot"} isHTML={true} message={response} />
         </FlexCol>
       )}
-      { error && <FlexCol className="p-4 rounded bg-red-200 text-red-900">{ error.message }</FlexCol>}
+      { error && <ErrorMessage error={error}/>}
     </FlexCol>
   );
 };

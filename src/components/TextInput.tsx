@@ -9,7 +9,7 @@ type Props = {
 export function TextInput({ value, isLoading, handleOnChange }: Props) {
   return (
     <input
-      className="p-4 bg-gray-100 flex-1 rounded"
+      className="px-4 py-2 bg-gray-100 flex-1 rounded h-12"
       placeholder="Type a message to send"
       type="text"
       value={value}

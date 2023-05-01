@@ -7,9 +7,10 @@ type Props = {
   isLoading?: boolean;
   isCentered?: boolean;
   handleOnClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
 };
 
-export function Button({ text, isSmall, loadingText = "Loading...", isLoading, isCentered, handleOnClick }: Props) {
+export function Button({ text, isSmall, loadingText = "Loading...", isLoading, isCentered, handleOnClick, className }: Props) {
   return (
     <button
       type="button"
@@ -20,6 +21,7 @@ export function Button({ text, isSmall, loadingText = "Loading...", isLoading, i
         font-bold
         max-w-xs
         ${ isCentered ? `place-self-center` : "place-self-start"}
+        ${ className && className }
       `}
       onClick={(e) => handleOnClick(e)}
       disabled={isLoading}

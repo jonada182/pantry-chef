@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, GroceryItems, Page } from "../components";
+import { Button, Card, GroceryItems, Page, RecipeCard } from "../components";
 import { useGetGroceries, useFindRecipe } from "../hooks";
 import { getMyGroceries, getMyGroceriesByCategory } from "../helpers";
 import { GroceryItem, Ingredient, MyGroceries } from "../types";
@@ -80,23 +80,7 @@ const Home = () => {
         </>
       )}
       { recipe && (
-        // TODO: Create a recipe component
-        <Card title="Here is your tasty recipe">
-          <div className="w-full h-64 relative">
-            <img src={recipe?.image_url} alt={recipe?.title} className="absolute inset-0 object-cover object-center w-full h-full" />
-            <div className="absolute inset-0 bg-black opacity-40"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <h1 className="text-3xl font-bold text-white">{recipe?.title}</h1>
-              </div>
-            </div>
-          </div>
-          <h3 className="font-bold text-lg">Ingredients</h3>
-          <ul>{recipe?.ingredients?.map((ingredient, index) => <li key={index}>{ingredient}</li>)}</ul>
-          <h3 className="font-bold text-lg">Instructions</h3>
-          {recipe?.instructions?.map(instruction => <p>{instruction}</p>)}
-          <Button isCentered={true} handleOnClick={() => resetRecipeState()} text="Edit my ingredients"/>
-        </Card>
+        <RecipeCard recipe={recipe} handleOnClick={resetRecipeState}/>
       )}
     </Page>
   );

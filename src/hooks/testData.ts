@@ -211,7 +211,7 @@ export const groceryCategories = [
 ];
 
 export const testRecipe = {
-  image_url: "src/assets/img/recipe_image.jpg",
+  image_url: "/public/img/recipe_image.jpg",
   message: {
     title: "Chicken and Onion Stir-Fry",
     ingredients: [

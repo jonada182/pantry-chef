@@ -5,9 +5,7 @@ export const api = {
   init: ():AxiosInstance => {
     return axios.create({
       baseURL: API_BASE_URL || "http://localhost/api",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
   },
 };
