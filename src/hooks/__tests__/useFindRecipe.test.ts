@@ -47,11 +47,41 @@ describe("useFindRecipe", () => {
     });
   });
 
+  it("should send ingredients and throw an error if invalid response", async () => {
+    const responseData = {
+      title: "Invalid recipe",
+      ingredients: [{ ingredient1: "test" }, { ingredient2: "test" }],
+      instructions: [{ instruction1: "test" }],
+      image_url: "some image"
+    };
+    const mockAxios = axios as jest.Mocked<typeof axios>;
+    mockAxios.create.mockImplementation(() => axios );
+    mockAxios.post.mockResolvedValueOnce({ data: responseData });
+
+    const { result } = renderHook(() => useFindRecipe());
+
+    act(() => {
+      result.current.sendIngredients(ingredients);
+    });
+
+    expect(mockAxios.post).toBeCalledWith("chat", { message: postRequestMessage, is_recipe: true });
+    expect(mockAxios.post).toBeCalledTimes(1);
+
+    expect(result.current.loading).toBe(true);
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+      expect(result.current.error).toStrictEqual(Error("response data cannot be mapped to Recipe"));
+      expect(result.current.recipe).toBeNull();
+    });
+  });
+
   it("should send ingredients and return an error", async () => {
+    const responseError = Error("new error");
     const mockAxios = axios as jest.Mocked<typeof axios>;
     mockAxios.create.mockImplementation(() => axios );
     mockAxios.post.mockImplementation(() => {
-      throw Error("new error");
+      throw responseError;
     });
 
     const { result } = renderHook(() => useFindRecipe());
@@ -64,7 +94,7 @@ describe("useFindRecipe", () => {
     expect(mockAxios.post).toBeCalledTimes(1);
 
     expect(result.current.loading).toBe(false);
-    expect(result.current.error).not.toBeNull();
+    expect(result.current.error).toBe(responseError);
     expect(result.current.recipe).toBeNull();
   });
 

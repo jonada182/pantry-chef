@@ -73,7 +73,7 @@ const Home = () => {
           <Card title="Produce" description="Next, pick some of your produce items.">
             <GroceryItems groceryItems={myGroceryItems?.produce} handleOnClick={addIngredient}/>
           </Card>
-          <Card title="Additional Ingredients">
+          <Card title="Additional Ingredients" description="Select any other ingredients you may want.">
             <GroceryItems groceryItems={myGroceryItems?.additional} handleOnClick={addIngredient}/>
           </Card>
           { ingredients.length > 0 && <Button isCentered={true} handleOnClick={() => findRecipe()} text="Find me a recipe"/> }

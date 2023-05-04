@@ -11,10 +11,14 @@ export const RecipeCard = ({ recipe, handleOnClick }: Props) => {
   return (
     <Card hero={{ title: recipe?.title || "Here is your tasty recipe", image_url: recipe?.image_url }}>
       <h3 className="font-bold text-lg">Ingredients</h3>
-      <ul className="mx-4">{ recipe?.ingredients?.map((ingredient, index) => <li key={index}>{ingredient}</li>) }</ul>
+      <ul className="mx-4">
+        { recipe?.ingredients?.map((ingredient, index) => <li key={index}>{ingredient}</li>) }
+      </ul>
       <h3 className="font-bold text-lg">Instructions</h3>
-      <p className="mx-4">{ recipe?.instructions?.map((instruction, index) => <span className="mb-4" key={index}>{instruction}</span>) }</p>
-      <Button isCentered={true} handleOnClick={() => handleOnClick()} text="Edit Ingredients"/>
+      <ul className="mx-4">
+        { recipe?.instructions?.map((instruction, index) => <li key={index} className="mb-2">{instruction}</li>) }
+      </ul>
+      <Button className="mb-4" isCentered={true} handleOnClick={() => handleOnClick()} text="Edit Ingredients"/>
     </Card>
   );
 };

@@ -10,6 +10,9 @@ type Props = {
 
 export const GroceryItems = ({ groceryItems, handleOnClick }: Props) => {
 
+  if (!groceryItems || groceryItems?.length == 0)
+    return <div className="text-sm text-primary-text">No groceries available</div>;
+
   const renderSelectedItems = () => {
     return groceryItems?.sort(compareGroceryItems).map((item) => (
       <Chip

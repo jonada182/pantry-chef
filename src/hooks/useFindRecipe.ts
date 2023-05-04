@@ -24,19 +24,25 @@ export const useFindRecipe = (): FindRecipeResponse => {
     setRecipe(null);
   };
 
-  const mapResponse = (data: any): Recipe => {
-    return {
+  const mapResponse = (data: any) => {
+
+    const mappedRecipe: Recipe = {
       title: data?.message?.title,
       ingredients: data?.message?.ingredients,
       instructions: data?.message?.instructions,
       image_url: data?.image_url,
     };
+
+    if (!mappedRecipe.ingredients || !mappedRecipe.instructions)
+      return setError(Error("response data cannot be mapped to Recipe"));
+
+    return setRecipe(mappedRecipe);
   };
 
   const mockResponseRecipe = (mockRecipe: any) => {
     setLoading(true);
     setTimeout(() => {
-      setRecipe(mapResponse(mockRecipe));
+      mapResponse(mockRecipe);
       setLoading(false);
     }, 2000);
   };
@@ -57,7 +63,7 @@ export const useFindRecipe = (): FindRecipeResponse => {
     try {
       const API = api.init();
       const response = await API.post("chat", { message: message, is_recipe: true });
-      setRecipe(mapResponse(response?.data));
+      mapResponse(response?.data);
     } catch (err: any) {
       setError(err);
     } finally {

@@ -11,6 +11,9 @@ type Props = {
 
 export const GrocerySelectedItems = ({ groceries, selectedItemIds, handleOnClick }: Props) => {
 
+  if (!groceries || groceries?.length == 0)
+    return <div className="text-sm text-primary-text">No groceries available</div>;
+
   const renderSelectedItems = () => {
     const allItems = groceries?.flatMap((category: GroceryCategory) => category.items);
     const selectedItems = allItems?.filter((item: GroceryItem) => ( selectedItemIds.indexOf(item._id) >= 0));
@@ -19,7 +22,7 @@ export const GrocerySelectedItems = ({ groceries, selectedItemIds, handleOnClick
     ));
   };
 
-  if (selectedItemIds.length > 0)
+  if (selectedItemIds && selectedItemIds.length > 0) {
     return (
       <FlexCol className="w-full my-4">
         <h3 className="">Your selected Items</h3>
@@ -28,5 +31,7 @@ export const GrocerySelectedItems = ({ groceries, selectedItemIds, handleOnClick
         </FlexRow>
       </FlexCol>
     );
+  }
+
   return <></>;
 };
