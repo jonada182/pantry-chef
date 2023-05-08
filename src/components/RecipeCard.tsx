@@ -9,7 +9,7 @@ type Props = {
 
 export const RecipeCard = ({ recipe, handleOnClick }: Props) => {
   return (
-    <Card hero={{ title: recipe?.title || "Here is your tasty recipe", image_url: recipe?.image_url }}>
+    <Card hero={{ title: recipe?.title || "Here is your tasty recipe", imageUrl: recipe?.imageUrl }}>
       <h3 className="font-bold text-lg">Ingredients</h3>
       <ul className="mx-4">
         { recipe?.ingredients?.map((ingredient, index) => <li key={index}>{ingredient}</li>) }

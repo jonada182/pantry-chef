@@ -23,7 +23,7 @@ describe("useFindRecipe", () => {
       title: testRecipe.message.title,
       ingredients: testRecipe.message.ingredients,
       instructions: testRecipe.message.instructions,
-      image_url: testRecipe.image_url,
+      imageUrl: testRecipe.image_url,
     };
     const mockAxios = axios as jest.Mocked<typeof axios>;
     mockAxios.create.mockImplementation(() => axios );
@@ -52,7 +52,7 @@ describe("useFindRecipe", () => {
       title: "Invalid recipe",
       ingredients: [{ ingredient1: "test" }, { ingredient2: "test" }],
       instructions: [{ instruction1: "test" }],
-      image_url: "some image"
+      image_url: "some image",
     };
     const mockAxios = axios as jest.Mocked<typeof axios>;
     mockAxios.create.mockImplementation(() => axios );

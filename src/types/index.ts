@@ -10,5 +10,13 @@ export interface Recipe {
   title?: string;
   ingredients?: string[];
   instructions?: string[];
-  image_url?: string | null;
+  imageUrl?: string | null;
+}
+
+export interface MyRecipe extends Recipe {
+  id: number;
+}
+
+export interface SelectedItem {
+  groceryItemId: string;
 }

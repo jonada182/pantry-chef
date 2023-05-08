@@ -4,7 +4,7 @@ import { formatHTML } from "../helpers";
 
 type Hero = {
   title: string | "";
-  image_url?: string | null;
+  imageUrl?: string | null;
 };
 
 type Props = {
@@ -20,7 +20,7 @@ export const Card = ({ title, description, isHTML = false, children, hero }: Pro
     <FlexCol className="rounded-lg my-4 bg-white shadow-md border-gray-100 border border-solid overflow-hidden" gap={4}>
       { hero && (
         <FlexCol className="w-full h-64 relative">
-          { hero.image_url && <img src={hero.image_url} alt={hero.title} className="absolute inset-0 object-cover object-center w-full h-full" />}
+          { hero.imageUrl && <img src={hero.imageUrl} alt={hero.title} className="absolute inset-0 object-cover object-center w-full h-full" />}
           <div className="absolute inset-0 bg-black opacity-40"></div>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center p-4">
