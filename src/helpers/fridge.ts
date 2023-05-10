@@ -1,12 +1,15 @@
 // This set of functions store and retrieve an array of ids (string) in localStorage
 // This should eventually become a custom hook that uses local/remote database
 
-export const getMyGroceries = (): string[] => {
-  const storedSelectedItemsJson = localStorage.getItem("groceryInventoryItemIds");
-  const storedSelectedItems: string[] = storedSelectedItemsJson ? JSON.parse(storedSelectedItemsJson) : [];
+import { SelectedItem } from "../types";
+
+export const getMyGroceries = (): SelectedItem[] => {
+  const storedSelectedItemsJson = localStorage.getItem("myGroceryItems");
+  const storedSelectedItems: SelectedItem[] = storedSelectedItemsJson ? JSON.parse(storedSelectedItemsJson) : [];
   return storedSelectedItems;
 };
 
-export const storeMyGroceries = (items: string[]) => {
-  localStorage.setItem("groceryInventoryItemIds", JSON.stringify(items));
+export const storeMyGroceries = (items: SelectedItem[]) => {
+  if (items && items.length > 0)
+    localStorage.setItem("myGroceryItems", JSON.stringify(items));
 };

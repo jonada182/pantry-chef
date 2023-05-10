@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, GroceryItems, Page, RecipeCard } from "../components";
-import { useGetGroceries, useFindRecipe } from "../hooks";
-import { getMyGroceries, getMyGroceriesByCategory } from "../helpers";
+import { useGetGroceries, useFindRecipe, useMyGroceries } from "../hooks";
+import { getMyGroceriesByCategory } from "../helpers";
 import { GroceryItem, Ingredient, MyGroceries } from "../types";
 
 const Home = () => {
-  const selectedItemIds = getMyGroceries();
   const {
     data: groceriesData,
     loading: groceriesLoading,
     error: groceriesError,
   } = useGetGroceries();
+  const {
+    selectedItems,
+    loading: myGroceriesLoading,
+    error: myGroceriesError,
+  } = useMyGroceries();
   const {
     error: recipeError,
     loading: recipeLoading,
@@ -18,14 +22,14 @@ const Home = () => {
     sendIngredients,
     resetState: resetRecipeState,
   } = useFindRecipe();
-  const error = groceriesError || recipeError;
-  const loading = groceriesLoading || recipeLoading;
+  const error = groceriesError || myGroceriesError || recipeError;
+  const loading = groceriesLoading || myGroceriesLoading || recipeLoading;
 
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [myGroceryItems, setMyGroceryItems] = useState<MyGroceries | null>(null);
 
   useEffect(() => {
-    setMyGroceryItems(getMyGroceriesByCategory(groceriesData, selectedItemIds));
+    setMyGroceryItems(getMyGroceriesByCategory(groceriesData, selectedItems));
   }, [groceriesData]);
 
   const addIngredient = (item: GroceryItem) => {

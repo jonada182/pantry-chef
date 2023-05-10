@@ -1,24 +1,31 @@
 import { renderHook, act } from "@testing-library/react";
-import { DB } from "../../db";
 import { useMyGroceries } from "../useMyGroceries";
-import sqlite3 from "sqlite3";
+import axios from "axios";
+import mockLocalStorage from "../../../__mocks__/localStorage";
 
-// Helper function to create an in-memory test database
-function createTestDB(): DB {
-  const dbInstance = new sqlite3.Database(":memory:");
-  return new DB(dbInstance);
-}
+Object.defineProperty(window, "localStorage", { value: mockLocalStorage });
 
-// Create a test database
-const db = createTestDB();
+jest.mock("../../helpers/constants", () =>({ API_BASE_URL: "http://localhost/api" }));
+
+jest.mock("axios");
 
 describe("useMyGroceries hook", () => {
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+    localStorage.clear();
+  });
+
   test("should add, delete, and retrieve selected items", async () => {
-    // Render the hook, passing the test DB instance
-    const { result } = renderHook(() => useMyGroceries(db));
+    const responseData = [{ groceryItemId: "test-item-id-1" }];
+    const mockAxios = axios as jest.Mocked<typeof axios>;
+    mockAxios.create.mockImplementation(() => axios );
+    mockAxios.get.mockResolvedValueOnce({ data: responseData });
+
+    const { result } = renderHook(() => useMyGroceries());
 
     // Test adding an item
-    const testItem = { groceryItemId: "test-item-id" };
+    const testItem = { groceryItemId: "test-item-id-1" };
     await act(async () => {
       await result.current.addSelectedItem(testItem);
     });

@@ -1,28 +1,30 @@
 import React from "react";
-import { GroceryCategory, GroceryItem } from "../../types";
+import { GroceryCategory, GroceryItem, SelectedItem } from "../../types";
 import { Chip, FlexCol, FlexRow } from "..";
 import { compareGroceryItems } from "../../helpers";
 
 type Props = {
   groceries: GroceryCategory[] | null;
-  selectedItemIds: string[];
-  handleOnClick: (id: string, action: "add" | "remove") => void;
+  selectedItems: SelectedItem[];
+  handleOnClick: (item: SelectedItem, action: "add" | "remove") => void;
 };
 
-export const GrocerySelectedItems = ({ groceries, selectedItemIds, handleOnClick }: Props) => {
+export const GrocerySelectedItems = ({ groceries, selectedItems, handleOnClick }: Props) => {
 
   if (!groceries || groceries?.length == 0)
     return <div className="text-sm text-primary-text">No groceries available</div>;
 
   const renderSelectedItems = () => {
     const allItems = groceries?.flatMap((category: GroceryCategory) => category.items);
-    const selectedItems = allItems?.filter((item: GroceryItem) => ( selectedItemIds.indexOf(item._id) >= 0));
-    return selectedItems?.sort(compareGroceryItems).map((item) => (
-      <Chip key={item._id} name={item.name} handleOnClick={() => handleOnClick(item._id, "remove")} />
+    const filteredItems = allItems?.filter((item: GroceryItem) => (
+      selectedItems.some((sItem: SelectedItem) => sItem.groceryItemId === item._id)
+    ));
+    return filteredItems?.sort(compareGroceryItems).map((item) => (
+      <Chip key={item._id} name={item.name} handleOnClick={() => handleOnClick({ groceryItemId: item._id }, "remove")} />
     ));
   };
 
-  if (selectedItemIds && selectedItemIds.length > 0) {
+  if (selectedItems && selectedItems.length > 0) {
     return (
       <FlexCol className="w-full my-4">
         <h3 className="">Your selected Items</h3>

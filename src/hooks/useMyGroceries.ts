@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { DB } from "../db";
 import { SelectedItem } from "../types";
+import { getMyGroceries, storeMyGroceries } from "../helpers";
 
-export function useMyGroceries(db: DB) {
+export function useMyGroceries() {
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -10,7 +10,7 @@ export function useMyGroceries(db: DB) {
   useEffect(() => {
     const fetchSelectedItems = async () => {
       try {
-        const items = await db.getAllSelectedItems();
+        const items = getMyGroceries();
         setSelectedItems(items);
       } catch (err: any) {
         setError(err);
@@ -22,10 +22,16 @@ export function useMyGroceries(db: DB) {
     fetchSelectedItems();
   }, []);
 
-  const addSelectedItem = async (item: SelectedItem) => {
+  useEffect(() => {
+    storeMyGroceries(selectedItems);
+  }, [selectedItems]);
+
+  const addSelectedItem = async (newItem: SelectedItem) => {
+    if (selectedItems.some(item => item.groceryItemId === newItem.groceryItemId))
+      return;
     try {
-      await db.addSelectedItem(item);
-      setSelectedItems((prevItems) => [...prevItems, item]);
+      // await db.addSelectedItem(item);
+      setSelectedItems([...selectedItems, newItem]);
     } catch (err: any) {
       setError(err);
     }
@@ -33,7 +39,7 @@ export function useMyGroceries(db: DB) {
 
   const deleteSelectedItem = async (groceryItemId: string) => {
     try {
-      await db.deleteSelectedItem(groceryItemId);
+      // await db.deleteSelectedItem(groceryItemId);
       setSelectedItems((prevItems) => prevItems.filter((item) => item.groceryItemId !== groceryItemId));
     } catch (err: any) {
       setError(err);

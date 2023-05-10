@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useGetGroceries } from "../hooks/useGetGroceries";
-import { GroceryCategory } from "../types";
+import { GroceryCategory, SelectedItem } from "../types";
 import { Page,
   FlexCol,
   GroceryCategories,
   GrocerySelectedItems,
   Modal,
   GroceryItemsByCategory } from "../components";
-import { getMyGroceries, storeMyGroceries } from "../helpers";
+import { useMyGroceries } from "../hooks/useMyGroceries";
 
 const Groceries = () => {
-  const { data: groceries, loading, error } = useGetGroceries();
+  const { data: allGroceries, loading: groceriesLoading, error: groceriesError } = useGetGroceries();
+  const {
+    selectedItems,
+    addSelectedItem,
+    deleteSelectedItem,
+    loading: myGroceriesLoading,
+    error: myGroceriesError,
+  } = useMyGroceries();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
-  const [selectedItemIds, setSelectedItemIds] = useState<string[]>(getMyGroceries);
-
-  useEffect(() => {
-    storeMyGroceries(selectedItemIds);
-  }, [selectedItemIds]);
+  const loading = groceriesLoading || myGroceriesLoading;
+  const error = groceriesError || myGroceriesError;
 
   const openModal = (category: GroceryCategory) => {
     setSelectedCategory(category);
@@ -28,19 +32,13 @@ const Groceries = () => {
     setIsModalOpen(false);
   };
 
-  const handleChipClick = (itemId: string, action: "add" | "remove") => {
-
+  const handleChipClick = (item: SelectedItem, action: "add" | "remove") => {
     if (action === "add") {
-      setSelectedItemIds((prevItems) => {
-        if (!prevItems.includes(itemId)) {
-          return [...prevItems, itemId];
-        }
-        return prevItems;
-      });
+      addSelectedItem(item);
     }
 
     if (action === "remove") {
-      setSelectedItemIds((prevItems) => prevItems.filter((selectedItemId) => selectedItemId != itemId));
+      deleteSelectedItem(item.groceryItemId);
     }
   };
 
@@ -52,10 +50,10 @@ const Groceries = () => {
       error={error}
     >
       <FlexCol>
-        <GroceryCategories groceries={groceries} handleOnClick={openModal} />
+        <GroceryCategories groceries={allGroceries} handleOnClick={openModal} />
         <GrocerySelectedItems
-          groceries={groceries}
-          selectedItemIds={selectedItemIds}
+          groceries={allGroceries}
+          selectedItems={selectedItems}
           handleOnClick={handleChipClick}
         />
         <Modal
@@ -65,7 +63,7 @@ const Groceries = () => {
           description="Please select the items you have at home from the list below to update your inventory.">
             <GroceryItemsByCategory
               selectedCategory={selectedCategory}
-              selectedItemIds={selectedItemIds}
+              selectedItems={selectedItems}
               handleOnClick={handleChipClick}
             />
         </Modal>

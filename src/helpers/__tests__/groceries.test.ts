@@ -51,7 +51,12 @@ describe("Grocery functions", () => {
   });
 
   test("getMyGroceriesByCategory should return items grouped by category slug", () => {
-    const result = getMyGroceriesByCategory(groceryCategories, ["1", "2", "3"]);
+    const selectedItems = [
+      { groceryItemId: "1" },
+      { groceryItemId: "2" },
+      { groceryItemId: "3" },
+    ];
+    const result = getMyGroceriesByCategory(groceryCategories, selectedItems);
     expect(result).toEqual({
       fruits: [groceryItems[0], groceryItems[1]],
       vegetables: [groceryItems[2]],
