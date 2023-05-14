@@ -1,14 +1,21 @@
 import { useState, useEffect } from "react";
 import { SelectedItem } from "../types";
 import { api } from "../helpers";
-import { APP_USER_ID } from "../helpers/constants";
+import { APP_USER_ID, MOCK_API } from "../helpers/constants";
+import { testUserGroceries } from "./testData";
 
 export function useMyGroceries() {
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
-
+  const mockResponseRecipe = (mockData: any) => {
+    setLoading(true);
+    setTimeout(() => {
+      setSelectedItems(mapResponse(mockData));
+      setLoading(false);
+    });
+  };
 
   const mapResponse = (data: any): SelectedItem[] => {
     return data.map((item: any) => ({ groceryItemId: item.grocery_item_id }));
@@ -16,6 +23,9 @@ export function useMyGroceries() {
 
   useEffect(() => {
     const fetchSelectedItems = async () => {
+      if (MOCK_API == "true")
+        return mockResponseRecipe(testUserGroceries);
+
       setLoading(true);
       try {
         const API = api.init();
@@ -35,6 +45,9 @@ export function useMyGroceries() {
     if (selectedItems.some(item => item.groceryItemId === newItem.groceryItemId))
       return;
     try {
+      if (MOCK_API == "true")
+        return setSelectedItems([...selectedItems, newItem]);
+
       const API = api.init();
       const response = await API.post(`/user/${ APP_USER_ID }/groceries/${ newItem.groceryItemId }`);
       if (response)
@@ -48,6 +61,9 @@ export function useMyGroceries() {
 
   const deleteSelectedItem = async (groceryItemId: string) => {
     try {
+      if (MOCK_API == "true")
+        return setSelectedItems((prevItems) => prevItems.filter((item) => item.groceryItemId !== groceryItemId));
+
       const API = api.init();
       const response = await API.delete(`/user/${ APP_USER_ID }/groceries/${ groceryItemId }`);
       if (response)
