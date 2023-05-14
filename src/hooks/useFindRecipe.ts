@@ -30,7 +30,7 @@ export const useFindRecipe = (): FindRecipeResponse => {
       title: data?.message?.title,
       ingredients: data?.message?.ingredients,
       instructions: data?.message?.instructions,
-      image_url: data?.image_url,
+      imageUrl: data?.image_url,
     };
 
     if (!mappedRecipe.ingredients || !mappedRecipe.instructions)

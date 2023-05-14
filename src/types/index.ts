@@ -5,10 +5,18 @@ export interface Ingredient {
   name: string;
   slug: string;
 }
-
+// TODO: Change to UserRecipe
 export interface Recipe {
   title?: string;
   ingredients?: string[];
   instructions?: string[];
-  image_url?: string | null;
+  imageUrl?: string | null;
+}
+
+export interface MyRecipe extends Recipe {
+  id: number;
+}
+// TODO: Change to UserGroceryItem
+export interface SelectedItem {
+  groceryItemId: string;
 }

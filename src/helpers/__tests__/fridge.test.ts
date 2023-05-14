@@ -1,5 +1,5 @@
 import { getMyGroceries, storeMyGroceries } from "../fridge";
-import mockLocalStorage from "../../__mocks__/localStorage";
+import mockLocalStorage from "../../../__mocks__/localStorage";
 
 Object.defineProperty(window, "localStorage", { value: mockLocalStorage });
 
@@ -14,21 +14,21 @@ describe("Grocery functions", () => {
   });
 
   test("storeMyGroceries should store items in localStorage", () => {
-    const items = ["apple", "banana", "carrot"];
+    const items = [{ groceryItemId: "id" }];
     storeMyGroceries(items);
-    const storedItemsJson = localStorage.getItem("groceryInventoryItemIds");
+    const storedItemsJson = localStorage.getItem("myGroceryItems");
     expect(storedItemsJson).toEqual(JSON.stringify(items));
   });
 
   test("getMyGroceries should return stored items", () => {
-    const items = ["apple", "banana", "carrot"];
-    localStorage.setItem("groceryInventoryItemIds", JSON.stringify(items));
+    const items = [{ groceryItemId: "id" }];
+    localStorage.setItem("myGroceryItems", JSON.stringify(items));
     const result = getMyGroceries();
     expect(result).toEqual(items);
   });
 
   test("storeMyGroceries followed by getMyGroceries should return the same items", () => {
-    const items = ["apple", "banana", "carrot"];
+    const items = [{ groceryItemId: "id" }];
     storeMyGroceries(items);
     const result = getMyGroceries();
     expect(result).toEqual(items);

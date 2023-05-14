@@ -210,6 +210,21 @@ export const groceryCategories = [
   },
 ];
 
+export const testUserGroceries = [
+  {
+    _id: "1",
+    grocery_item_id: "64370a60a7763c952a6ef16d"
+  },
+  {
+    _id: "2",
+    grocery_item_id: "64370a60a7763c952a6ef16e"
+  },
+  {
+    _id: "3",
+    grocery_item_id: "64370a60a7763c952a6ef193"
+  }
+]
+
 export const testRecipe = {
   image_url: "/public/img/recipe_image.jpg",
   message: {
