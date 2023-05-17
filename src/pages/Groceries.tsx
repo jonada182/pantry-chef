@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 import { useGetGroceries } from "../hooks/useGetGroceries";
-import { GroceryCategory, SelectedItem } from "../types";
+import { GroceryCategory, UserGrocery } from "../types";
 import { Page,
   FlexCol,
   GroceryCategories,
   GrocerySelectedItems,
   Modal,
   GroceryItemsByCategory } from "../components";
-import { useMyGroceries } from "../hooks/useMyGroceries";
+import { useUserGroceries } from "../hooks/useUserGroceries";
 
 const Groceries = () => {
   const { data: allGroceries, loading: groceriesLoading, error: groceriesError } = useGetGroceries();
   const {
-    selectedItems,
-    addSelectedItem,
-    deleteSelectedItem,
-    loading: myGroceriesLoading,
-    error: myGroceriesError,
-  } = useMyGroceries();
+    userGroceries,
+    addUserGrocery,
+    deleteUserGrocery,
+    loading: userGroceriesLoading,
+    error: userGroceriesError,
+  } = useUserGroceries();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
-  const loading = groceriesLoading || myGroceriesLoading;
-  const error = groceriesError || myGroceriesError;
+  const loading = groceriesLoading || userGroceriesLoading;
+  const error = groceriesError || userGroceriesError;
 
   const openModal = (category: GroceryCategory) => {
     setSelectedCategory(category);
@@ -32,13 +32,13 @@ const Groceries = () => {
     setIsModalOpen(false);
   };
 
-  const handleChipClick = (item: SelectedItem, action: "add" | "remove") => {
+  const handleChipClick = (item: UserGrocery, action: "add" | "remove") => {
     if (action === "add") {
-      addSelectedItem(item);
+      addUserGrocery(item);
     }
 
     if (action === "remove") {
-      deleteSelectedItem(item.groceryItemId);
+      deleteUserGrocery(item.groceryItemId);
     }
   };
 
@@ -53,7 +53,7 @@ const Groceries = () => {
         <GroceryCategories groceries={allGroceries} handleOnClick={openModal} />
         <GrocerySelectedItems
           groceries={allGroceries}
-          selectedItems={selectedItems}
+          userGroceries={userGroceries}
           handleOnClick={handleChipClick}
         />
         <Modal
@@ -63,7 +63,7 @@ const Groceries = () => {
           description="Please select the items you have at home from the list below to update your inventory.">
             <GroceryItemsByCategory
               selectedCategory={selectedCategory}
-              selectedItems={selectedItems}
+              userGroceries={userGroceries}
               handleOnClick={handleChipClick}
             />
         </Modal>

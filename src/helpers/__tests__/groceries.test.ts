@@ -1,4 +1,4 @@
-import { compareGroceryItems, getItemsByCategorySlug, getMyGroceriesByCategory } from "../groceries";
+import { compareGroceryItems, getItemsByCategorySlug, getGroupedGroceriesByCategory } from "../groceries";
 import { GroceryCategory, GroceryItem } from "../../types";
 
 // Mock data
@@ -45,18 +45,18 @@ describe("Grocery functions", () => {
     expect(result).toEqual([]);
   });
 
-  test("getMyGroceriesByCategory should return null when no selected items", () => {
-    const result = getMyGroceriesByCategory(groceryCategories, []);
+  test("getGroupedGroceriesByCategory should return null when no selected items", () => {
+    const result = getGroupedGroceriesByCategory(groceryCategories, []);
     expect(result).toBeNull();
   });
 
-  test("getMyGroceriesByCategory should return items grouped by category slug", () => {
+  test("getGroupedGroceriesByCategory should return items grouped by category slug", () => {
     const selectedItems = [
       { groceryItemId: "1" },
       { groceryItemId: "2" },
       { groceryItemId: "3" },
     ];
-    const result = getMyGroceriesByCategory(groceryCategories, selectedItems);
+    const result = getGroupedGroceriesByCategory(groceryCategories, selectedItems);
     expect(result).toEqual({
       fruits: [groceryItems[0], groceryItems[1]],
       vegetables: [groceryItems[2]],

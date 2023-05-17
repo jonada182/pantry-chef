@@ -5,7 +5,7 @@ export interface Ingredient {
   name: string;
   slug: string;
 }
-// TODO: Change to UserRecipe
+
 export interface Recipe {
   title?: string;
   ingredients?: string[];
@@ -13,10 +13,10 @@ export interface Recipe {
   imageUrl?: string | null;
 }
 
-export interface MyRecipe extends Recipe {
-  id: number;
+export interface UserRecipe extends Recipe {
+  _id: string;
 }
-// TODO: Change to UserGroceryItem
-export interface SelectedItem {
+
+export interface UserGrocery {
   groceryItemId: string;
 }

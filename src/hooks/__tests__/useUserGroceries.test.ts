@@ -1,18 +1,18 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { useMyGroceries } from "../useMyGroceries";
+import { useUserGroceries } from "../useUserGroceries";
 import axios from "axios";
 
 jest.mock("../../helpers/constants", () =>({ API_BASE_URL: "http://localhost/api", APP_USER_ID: "test-user" }));
 
 jest.mock("axios");
 
-describe("useMyGroceries hook", () => {
+describe("useUserGroceries hook", () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  test("should add, delete, and retrieve selected items", async () => {
+  test("should add, delete, and retrieve user groceries", async () => {
     const responseData = [{ grocery_item_id: "test-item-id-1" }];
     const expectedResponse = [{ groceryItemId: "test-item-id-1" }];
     const mockAxios = axios as jest.Mocked<typeof axios>;
@@ -21,7 +21,7 @@ describe("useMyGroceries hook", () => {
     mockAxios.post.mockResolvedValueOnce({ data: {message: "saved"} });
     mockAxios.delete.mockResolvedValueOnce({ data: {message: "deleted"} });
 
-    const { result } = renderHook(() => useMyGroceries());
+    const { result } = renderHook(() => useUserGroceries());
 
     expect(mockAxios.get).toBeCalledWith(`/user/test-user/groceries`);
     expect(mockAxios.get).toBeCalledTimes(1);
@@ -31,13 +31,13 @@ describe("useMyGroceries hook", () => {
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
       expect(result.current.error).toBeNull();
-      expect(result.current.selectedItems).toStrictEqual(expectedResponse);
+      expect(result.current.userGroceries).toStrictEqual(expectedResponse);
     });
 
     // Test adding an item
     const testItem = { groceryItemId: "test-item-id-2" };
     await act(async () => {
-      await result.current.addSelectedItem(testItem);
+      await result.current.addUserGrocery(testItem);
     });
 
     expect(mockAxios.post).toBeCalledWith(`/user/test-user/groceries/${ testItem.groceryItemId }`);
@@ -48,13 +48,13 @@ describe("useMyGroceries hook", () => {
     await waitFor(() => {
       expect(result.current.error).toBeNull();
       // Verify that the item was added
-      expect(result.current.selectedItems).toHaveLength(2);
-      expect(result.current.selectedItems).toStrictEqual([...expectedResponse, testItem]);
+      expect(result.current.userGroceries).toHaveLength(2);
+      expect(result.current.userGroceries).toStrictEqual([...expectedResponse, testItem]);
     });
 
     // Test deleting the item
     await act(async () => {
-      await result.current.deleteSelectedItem(testItem.groceryItemId);
+      await result.current.deleteUserGrocery(testItem.groceryItemId);
     });
 
     expect(mockAxios.delete).toBeCalledWith(`/user/test-user/groceries/${ testItem.groceryItemId }`);
@@ -65,8 +65,8 @@ describe("useMyGroceries hook", () => {
     await waitFor(() => {
       expect(result.current.error).toBeNull();
       // Verify that the item was deleted
-      expect(result.current.selectedItems).toHaveLength(1);
-      expect(result.current.selectedItems).toStrictEqual(expectedResponse);
+      expect(result.current.userGroceries).toHaveLength(1);
+      expect(result.current.userGroceries).toStrictEqual(expectedResponse);
     });
   });
 });

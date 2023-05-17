@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, GroceryItems, Page, RecipeCard } from "../components";
-import { useGetGroceries, useFindRecipe, useMyGroceries } from "../hooks";
-import { getMyGroceriesByCategory } from "../helpers";
-import { GroceryItem, Ingredient, MyGroceries } from "../types";
+import { useGetGroceries, useFindRecipe, useUserGroceries } from "../hooks";
+import { getGroupedGroceriesByCategory } from "../helpers";
+import { GroceryItem, Ingredient, GroupedGroceries } from "../types";
 
 const Home = () => {
   const {
@@ -11,10 +11,10 @@ const Home = () => {
     error: groceriesError,
   } = useGetGroceries();
   const {
-    selectedItems,
-    loading: myGroceriesLoading,
-    error: myGroceriesError,
-  } = useMyGroceries();
+    userGroceries,
+    loading: userGroceriesLoading,
+    error: userGroceriesError,
+  } = useUserGroceries();
   const {
     error: recipeError,
     loading: recipeLoading,
@@ -22,14 +22,14 @@ const Home = () => {
     sendIngredients,
     resetState: resetRecipeState,
   } = useFindRecipe();
-  const error = groceriesError || myGroceriesError || recipeError;
-  const loading = groceriesLoading || myGroceriesLoading || recipeLoading;
+  const error = groceriesError || userGroceriesError || recipeError;
+  const loading = groceriesLoading || userGroceriesLoading || recipeLoading;
 
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [myGroceryItems, setMyGroceryItems] = useState<MyGroceries | null>(null);
+  const [groupedGroceries, setGroupedGroceries] = useState<GroupedGroceries | null>(null);
 
   useEffect(() => {
-    setMyGroceryItems(getMyGroceriesByCategory(groceriesData, selectedItems));
+    setGroupedGroceries(getGroupedGroceriesByCategory(groceriesData, userGroceries));
   }, [groceriesData]);
 
   const addIngredient = (item: GroceryItem) => {
@@ -46,16 +46,16 @@ const Home = () => {
       return prev.filter(i => i._id !== ingredient._id);
     });
 
-    const myGroceries = myGroceryItems;
-    for (const key in myGroceries) {
-      myGroceries[key].map(i => {
+    let thisGroupedGroceries = groupedGroceries;
+    for (const key in thisGroupedGroceries) {
+      thisGroupedGroceries[key].map(i => {
         if (i._id == item._id)
           i.isSelected = i.isSelected === true ? false : true;
         return i;
       });
     }
 
-    setMyGroceryItems(myGroceries);
+    setGroupedGroceries(thisGroupedGroceries);
   };
 
   const findRecipe = () => {
@@ -72,13 +72,13 @@ const Home = () => {
       { !recipe && (
         <>
           <Card title="Meats" description="Choose one meat from your groceries to start.">
-            <GroceryItems groceryItems={myGroceryItems?.meat} handleOnClick={addIngredient}/>
+            <GroceryItems groceryItems={groupedGroceries?.meat} handleOnClick={addIngredient}/>
           </Card>
           <Card title="Produce" description="Next, pick some of your produce items.">
-            <GroceryItems groceryItems={myGroceryItems?.produce} handleOnClick={addIngredient}/>
+            <GroceryItems groceryItems={groupedGroceries?.produce} handleOnClick={addIngredient}/>
           </Card>
           <Card title="Additional Ingredients" description="Select any other ingredients you may want.">
-            <GroceryItems groceryItems={myGroceryItems?.additional} handleOnClick={addIngredient}/>
+            <GroceryItems groceryItems={groupedGroceries?.additional} handleOnClick={addIngredient}/>
           </Card>
           { ingredients.length > 0 && <Button isCentered={true} handleOnClick={() => findRecipe()} text="Find me a recipe"/> }
         </>

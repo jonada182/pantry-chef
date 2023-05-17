@@ -13,4 +13,4 @@ export interface GroceryCategory {
   items: GroceryItem[];
 }
 
-export type MyGroceries = Record<string, GroceryItem[]>;
+export type GroupedGroceries = Record<string, GroceryItem[]>;

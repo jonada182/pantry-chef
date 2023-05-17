@@ -1,4 +1,4 @@
-import { GroceryCategory, GroceryItem, MyGroceries, SelectedItem } from "../types";
+import { GroceryCategory, GroceryItem, GroupedGroceries, UserGrocery } from "../types";
 
 const additionalCategorySlugs = ["pantry", "bakery"];
 
@@ -28,15 +28,15 @@ export const getItemsByCategorySlug = (
   return items;
 };
 
-export const getMyGroceriesByCategory = (
+export const getGroupedGroceriesByCategory = (
   groceries: GroceryCategory[] | null,
-  selectedItems: SelectedItem[],
-): MyGroceries | null => {
-  let myGroceries: MyGroceries | null = null;
+  userGroceries: UserGrocery[],
+): GroupedGroceries | null => {
+  let myGroceries: GroupedGroceries | null = null;
 
-  if (groceries && selectedItems.length > 0) {
-    myGroceries = groceries?.reduce<MyGroceries>((acc, category) => {
-      const items = category.items.filter(item => selectedItems.some(sItem => sItem.groceryItemId === item._id));
+  if (groceries && userGroceries.length > 0) {
+    myGroceries = groceries?.reduce<GroupedGroceries>((acc, category) => {
+      const items = category.items.filter(item => userGroceries.some(sItem => sItem.groceryItemId === item._id));
       if (additionalCategorySlugs.includes(category.slug)) {
         acc.additional = (acc.additional || []).concat(items);
       } else {

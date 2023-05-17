@@ -247,3 +247,30 @@ export const testRecipe = {
     ],
   },
 };
+
+const ingredientsJSON = JSON.stringify(testRecipe.message.ingredients);
+const instructionsJSON = JSON.stringify(testRecipe.message.instructions);
+
+export const testUserRecipes = [
+  {
+    _id: "1",
+    title: testRecipe.message.title,
+    ingredients: ingredientsJSON,
+    instructions: instructionsJSON,
+    image_url: "",
+  },
+  {
+    _id: "2",
+    title: testRecipe.message.title,
+    ingredients: ingredientsJSON,
+    instructions: instructionsJSON,
+    image_url: "",
+  },
+  {
+    _id: "3",
+    title: testRecipe.message.title,
+    ingredients: ingredientsJSON,
+    instructions: instructionsJSON,
+    image_url: "",
+  }
+]
