@@ -1,7 +1,6 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { useUserRecipes } from "../useUserRecipes";
 import axios from "axios";
-import { testUserRecipes } from "../testData";
 import { generateFakeId } from "../../helpers";
 
 jest.mock("../../helpers/constants", () =>({ API_BASE_URL: "http://localhost/api", APP_USER_ID: "test-user" }));
@@ -16,7 +15,6 @@ describe("useUserRecipes hook", () => {
 
   test("should add, delete, and retrieve user recipes", async () => {
     const newRecipeId = generateFakeId();
-    const responseData = [testUserRecipes[0]];
     const expectedResponse = [{
       _id: "1",
       title: "Chicken and Onion Stir-Fry",
@@ -39,12 +37,20 @@ describe("useUserRecipes hook", () => {
       imageUrl: "",
     }];
 
+    const responseData = [{
+      _id: expectedResponse[0]._id,
+      title: expectedResponse[0].title,
+      ingredients: JSON.stringify(expectedResponse[0].ingredients),
+      instructions: JSON.stringify(expectedResponse[0].instructions),
+      image_url: expectedResponse[0].imageUrl,
+    }];
+
     // new recipe data
     const newRecipe = {
       title: "new recipe",
       ingredients: ["item1", "item2"],
       instructions: ["item1", "item2"],
-      imageUrl: ""
+      imageUrl: "",
     };
 
     const newRecipePayload = {
@@ -57,19 +63,20 @@ describe("useUserRecipes hook", () => {
     const neewRecipeResponse = {
       ...newRecipePayload,
       _id: newRecipeId,
-    }
+    };
 
     const expectedNewRecipe = {
       ...newRecipe,
       _id: newRecipeId,
-    }
+    };
+
     const mockAxios = axios as jest.Mocked<typeof axios>;
     mockAxios.create.mockImplementation(() => axios );
     mockAxios.get.mockResolvedValueOnce({ data: responseData });
-    mockAxios.post.mockImplementationOnce((url, data: any) => {
+    mockAxios.post.mockImplementationOnce(() => {
       return Promise.resolve({ message: "saved", data: neewRecipeResponse });
     });
-    mockAxios.delete.mockResolvedValueOnce({ data: {message: "deleted"} });
+    mockAxios.delete.mockResolvedValueOnce({ data: { message: "deleted" } });
 
     const { result } = renderHook(() => useUserRecipes());
 
