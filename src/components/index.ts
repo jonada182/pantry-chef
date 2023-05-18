@@ -19,3 +19,5 @@ export { Card } from "./Card";
 export { LoadingMessage } from "./LoadingMessage";
 export { ErrorMessage } from "./ErrorMessage";
 export { RecipeCard } from "./RecipeCard";
+export { Toast } from "./Toast";
+export { Badge } from "./Badge";

@@ -9,24 +9,12 @@ export function useUserRecipes() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const mockResponseRecipe = (mockData: any) => {
-    setLoading(true);
-    setTimeout(() => {
-      setUserRecipes(mapResponseArray(mockData));
-      setLoading(false);
-    });
-  };
-
   type UserRecipeAPIResponse = {
     _id: string;
     title: string;
     ingredients: string;
     instructions: string;
     image_url: string | null;
-  };
-
-  const mapResponseArray = (data: any): UserRecipe[] => {
-    return data.map((recipe: UserRecipeAPIResponse) => (mapResponse(recipe)));
   };
 
   const mapResponse = (recipe: UserRecipeAPIResponse): UserRecipe => {
@@ -43,6 +31,18 @@ export function useUserRecipes() {
       instructions: JSON.parse(recipe?.instructions),
       imageUrl: recipe?.image_url,
     };
+  };
+
+  const mapResponseArray = (data: any): UserRecipe[] => {
+    return data.map((recipe: UserRecipeAPIResponse) => (mapResponse(recipe)));
+  };
+
+  const mockResponseRecipe = (mockData: any) => {
+    setLoading(true);
+    setTimeout(() => {
+      setUserRecipes(mapResponseArray(mockData));
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -92,8 +92,8 @@ export function useUserRecipes() {
       if (response?.data) {
         try {
           setUserRecipes([...userRecipes, mapResponse(response?.data)]);
-        } catch (error) {
-          setError(new Error(`Error when parsing response data: ${error}`));
+        } catch (resError: any) {
+          setError(new Error(`Error when parsing response data: ${resError}`));
         }
       }
     } catch (err: any) {

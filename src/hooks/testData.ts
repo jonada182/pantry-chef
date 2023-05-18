@@ -213,20 +213,20 @@ export const groceryCategories = [
 export const testUserGroceries = [
   {
     _id: "1",
-    grocery_item_id: "64370a60a7763c952a6ef16d"
+    grocery_item_id: "64370a60a7763c952a6ef16d",
   },
   {
     _id: "2",
-    grocery_item_id: "64370a60a7763c952a6ef16e"
+    grocery_item_id: "64370a60a7763c952a6ef16e",
   },
   {
     _id: "3",
-    grocery_item_id: "64370a60a7763c952a6ef193"
-  }
-]
+    grocery_item_id: "64370a60a7763c952a6ef193",
+  },
+];
 
 export const testRecipe = {
-  image_url: "/public/img/recipe_image.jpg",
+  image_url: "/img/recipe_image.jpg",
   message: {
     title: "Chicken and Onion Stir-Fry",
     ingredients: [
@@ -248,29 +248,61 @@ export const testRecipe = {
   },
 };
 
-const ingredientsJSON = JSON.stringify(testRecipe.message.ingredients);
-const instructionsJSON = JSON.stringify(testRecipe.message.instructions);
+const loremArrayShort = [
+  "Lorem ipsum dolor sit amet",
+  "Sed do eiusmod tempor incididunt",
+  "Ut enim ad minim veniam",
+  "Duis aute irure dolor in",
+  "Excepteur sint occaecat cupidatat",
+  "Sunt in culpa qui officia",
+  "Deserunt mollit anim id",
+  "Est laborum ipsum dolor",
+  "Consectetur adipiscing elit sed",
+  "Labore et dolore magna aliqua",
+];
+const loremArrayLong = [
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+];
+
+const generateLoremArray = (size: number, isLong = false) => {
+  const loremArray = isLong ? loremArrayLong : loremArrayShort;
+  const result = [];
+  for (let i = 0; i < size; i++) {
+    const randomIndex = Math.floor(Math.random() * loremArray.length);
+    result.push(loremArray[randomIndex]);
+  }
+  return result;
+};
 
 export const testUserRecipes = [
   {
     _id: "1",
-    title: testRecipe.message.title,
-    ingredients: ingredientsJSON,
-    instructions: instructionsJSON,
+    title: "Chicken and Rice",
+    ingredients: JSON.stringify(generateLoremArray(8)),
+    instructions: JSON.stringify(generateLoremArray(5, true)),
     image_url: "",
   },
   {
     _id: "2",
-    title: testRecipe.message.title,
-    ingredients: ingredientsJSON,
-    instructions: instructionsJSON,
+    title: "Caesar Salad",
+    ingredients: JSON.stringify(generateLoremArray(3)),
+    instructions: JSON.stringify(generateLoremArray(6, true)),
     image_url: "",
   },
   {
     _id: "3",
-    title: testRecipe.message.title,
-    ingredients: ingredientsJSON,
-    instructions: instructionsJSON,
+    title: "Steak and Potatoes",
+    ingredients: JSON.stringify(generateLoremArray(4)),
+    instructions: JSON.stringify(generateLoremArray(4, true)),
     image_url: "",
-  }
-]
+  },
+];

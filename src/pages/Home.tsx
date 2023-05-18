@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, GroceryItems, Page, RecipeCard } from "../components";
+import { Button, Card, GroceryItems, Page, RecipeCard, Toast } from "../components";
 import { useGetGroceries, useFindRecipe, useUserGroceries } from "../hooks";
 import { getGroupedGroceriesByCategory } from "../helpers";
 import { GroceryItem, Ingredient, GroupedGroceries } from "../types";
+import { useUserRecipes } from "../hooks/useUserRecipes";
 
 const Home = () => {
   const {
@@ -22,11 +23,13 @@ const Home = () => {
     sendIngredients,
     resetState: resetRecipeState,
   } = useFindRecipe();
-  const error = groceriesError || userGroceriesError || recipeError;
-  const loading = groceriesLoading || userGroceriesLoading || recipeLoading;
+  const { addUserRecipe, loading: userRecipesLoading, error: userRecipesError } = useUserRecipes();
+  const error = groceriesError || userGroceriesError || recipeError || userRecipesError;
+  const loading = groceriesLoading || userGroceriesLoading || recipeLoading || userRecipesLoading;
 
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [groupedGroceries, setGroupedGroceries] = useState<GroupedGroceries | null>(null);
+  const [recipeIsSaved, setRecipeIsSaved] = useState<boolean>(false);
 
   useEffect(() => {
     setGroupedGroceries(getGroupedGroceriesByCategory(groceriesData, userGroceries));
@@ -62,6 +65,15 @@ const Home = () => {
     sendIngredients(ingredients.flatMap(ingredient => ingredient.slug));
   };
 
+  const saveRecipe = () => {
+    if (recipe) {
+      addUserRecipe(recipe);
+      resetRecipeState();
+      setRecipeIsSaved(true);
+      setTimeout(() => setRecipeIsSaved(false), 5000);
+    }
+  };
+
   return (
     <Page
       title="Welcome"
@@ -80,11 +92,14 @@ const Home = () => {
           <Card title="Additional Ingredients" description="Select any other ingredients you may want.">
             <GroceryItems groceryItems={groupedGroceries?.additional} handleOnClick={addIngredient}/>
           </Card>
-          { ingredients.length > 0 && <Button isCentered={true} handleOnClick={() => findRecipe()} text="Find me a recipe"/> }
+          { recipeIsSaved && (
+            <Toast className="mb-4" type="success" message="This recipe was saved successfully!"/>
+          )}
+          { ingredients.length > 1 && <Button isCentered={true} handleOnClick={() => findRecipe()} text="Find me a recipe"/> }
         </>
       )}
       { recipe && (
-        <RecipeCard recipe={recipe} handleOnClick={resetRecipeState}/>
+        <RecipeCard recipe={recipe} handleOnReset={resetRecipeState} handleOnSave={() => saveRecipe()}/>
       )}
     </Page>
   );
