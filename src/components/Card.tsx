@@ -19,8 +19,8 @@ export const Card = ({ title, description, isHTML = false, children, hero }: Pro
   return (
     <FlexCol className="rounded-lg my-4 bg-white shadow-md border-gray-100 border border-solid overflow-hidden" gap={4}>
       { hero && (
-        <FlexCol className="w-full h-64 relative">
-          { hero.imageUrl && <img src={hero.imageUrl} alt={hero.title} className="absolute inset-0 object-cover object-center w-full h-full" />}
+        <FlexCol className="w-full h-60 relative">
+          { hero.imageUrl && <img src={hero.imageUrl} alt={hero.title} className="absolute inset-0 object-cover object-top w-full h-full" />}
           <div className="absolute inset-0 bg-black opacity-40"></div>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center p-4">

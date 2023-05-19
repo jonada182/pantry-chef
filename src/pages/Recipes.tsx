@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Badge, Button, Card, FlexCol, FlexRow, Modal, Page } from "../components";
 import { useUserRecipes } from "../hooks/useUserRecipes";
-import { UserRecipe } from "../types";
+import { getRecipeDifficulty, UserRecipe } from "../types";
 
 const Recipes = () => {
   const {
@@ -27,13 +27,16 @@ const Recipes = () => {
     if (userRecipes) {
       return userRecipes.map((userRecipe) => (
         <Card key={userRecipe._id}>
-          <FlexRow className="justify-between">
+          <FlexCol>
             <h3 className="text-xl font-bold">{userRecipe.title}</h3>
-            <Badge text={`${userRecipe.ingredients?.length} ingredients`}/>
-          </FlexRow>
+            <FlexRow gap={4} className="mt-2">
+              <div className="text-sm"><strong>Ingredients: </strong><Badge text={`${userRecipe.ingredients?.length}`} /></div>
+              <div className="text-sm"><strong>Difficulty: </strong>{getRecipeDifficulty(userRecipe.ingredients.length, userRecipe.instructions.length)}</div>
+            </FlexRow>
+          </FlexCol>
           <FlexRow gap={2}>
-            <Button isSmall={true} isSecondary={true} text="Delete" handleOnClick={() => deleteUserRecipe(userRecipe._id)}/>
             <Button isSmall={true} text="View Details" handleOnClick={() => openModal(userRecipe)}/>
+            <Button isSmall={true} isSecondary={true} text="Delete" handleOnClick={() => deleteUserRecipe(userRecipe._id)}/>
           </FlexRow>
         </Card>
       ));

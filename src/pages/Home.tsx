@@ -68,16 +68,18 @@ const Home = () => {
   const saveRecipe = () => {
     if (recipe) {
       addUserRecipe(recipe);
-      resetRecipeState();
-      setRecipeIsSaved(true);
-      setTimeout(() => setRecipeIsSaved(false), 5000);
+      if (!userRecipesError) {
+        resetRecipeState();
+        setRecipeIsSaved(true);
+        setTimeout(() => setRecipeIsSaved(false), 5000);
+      }
     }
   };
 
   return (
     <Page
       title="Welcome"
-      description="Find recipes, create grocery lists, and more in one place."
+      description="Find a recipe with at least two ingredients from your groceries."
       isLoading={loading}
       error={error}
     >

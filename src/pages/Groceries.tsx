@@ -6,7 +6,8 @@ import { Page,
   GroceryCategories,
   GrocerySelectedItems,
   Modal,
-  GroceryItemsByCategory } from "../components";
+  GroceryItemsByCategory,
+  AutoComplete } from "../components";
 import { useUserGroceries } from "../hooks/useUserGroceries";
 
 const Groceries = () => {
@@ -22,6 +23,10 @@ const Groceries = () => {
   const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
   const loading = groceriesLoading || userGroceriesLoading;
   const error = groceriesError || userGroceriesError;
+  const autoCompleteOptions =
+    allGroceries?.flatMap(category => category.items)
+      .filter(item => !userGroceries.some((sItem: UserGrocery) => sItem.groceryItemId === item._id))
+      .map((item) => ({ label: item.name, value: item._id })) || [];
 
   const openModal = (category: GroceryCategory) => {
     setSelectedCategory(category);
@@ -42,6 +47,10 @@ const Groceries = () => {
     }
   };
 
+  const handleAutoComplete = (value: string) => {
+    addUserGrocery({ groceryItemId: value });
+  };
+
   return (
     <Page
       title="Groceries"
@@ -49,8 +58,11 @@ const Groceries = () => {
       isLoading={loading}
       error={error}
     >
-      <FlexCol>
+      <FlexCol gap={4}>
         <GroceryCategories groceries={allGroceries} handleOnClick={openModal} />
+        { allGroceries && (
+          <AutoComplete options={autoCompleteOptions} setInputValue={(value) => handleAutoComplete(value)} />
+        )}
         <GrocerySelectedItems
           groceries={allGroceries}
           userGroceries={userGroceries}

@@ -18,11 +18,13 @@ export function useUserRecipes() {
   };
 
   const mapResponse = (recipe: UserRecipeAPIResponse): UserRecipe => {
-    if (!recipe?.ingredients)
+    if (!recipe?.ingredients) {
       throw new Error("No ingredients from this recipe");
+    }
 
-    if (!recipe?.instructions)
+    if (!recipe?.instructions) {
       throw new Error("No instructions from this recipe");
+    }
 
     return {
       _id: recipe?._id,
@@ -89,9 +91,9 @@ export function useUserRecipes() {
 
       const API = api.init();
       const response = await API.post(`/user/${ APP_USER_ID }/recipes`, payload);
-      if (response?.data) {
+      if (response?.data?.data) {
         try {
-          setUserRecipes([...userRecipes, mapResponse(response?.data)]);
+          setUserRecipes([...userRecipes, mapResponse(response?.data?.data)]);
         } catch (resError: any) {
           setError(new Error(`Error when parsing response data: ${resError}`));
         }

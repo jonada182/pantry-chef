@@ -21,3 +21,4 @@ export { ErrorMessage } from "./ErrorMessage";
 export { RecipeCard } from "./RecipeCard";
 export { Toast } from "./Toast";
 export { Badge } from "./Badge";
+export { AutoComplete } from "./AutoComplete";

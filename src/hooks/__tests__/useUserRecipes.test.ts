@@ -60,7 +60,7 @@ describe("useUserRecipes hook", () => {
       image_url: newRecipe.imageUrl,
     };
 
-    const neewRecipeResponse = {
+    const newRecipeResponse = {
       ...newRecipePayload,
       _id: newRecipeId,
     };
@@ -74,7 +74,7 @@ describe("useUserRecipes hook", () => {
     mockAxios.create.mockImplementation(() => axios );
     mockAxios.get.mockResolvedValueOnce({ data: responseData });
     mockAxios.post.mockImplementationOnce(() => {
-      return Promise.resolve({ message: "saved", data: neewRecipeResponse });
+      return Promise.resolve({ data: { message: "saved", data: newRecipeResponse }});
     });
     mockAxios.delete.mockResolvedValueOnce({ data: { message: "deleted" } });
 

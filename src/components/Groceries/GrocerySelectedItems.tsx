@@ -26,7 +26,7 @@ export const GrocerySelectedItems = ({ groceries, userGroceries, handleOnClick }
 
   if (userGroceries && userGroceries.length > 0) {
     return (
-      <FlexCol className="w-full my-4">
+      <FlexCol className="w-full">
         <h3 className="">Your selected Items</h3>
         <FlexRow className="my-2 items-center content-center flex-wrap">
           {renderUserGroceries()}
