@@ -16,9 +16,13 @@ const NavBar = ({ children, direction = "horizontal" }: Props) => {
   }
 
   return (
-    <FlexRow id="nav-bar" className="place-content-evenly bg-primary text-primary-text font-bold">
-      { children }
-    </FlexRow>
+    <div className="bg-primary text-primary-text font-bold">
+      <div className="max-w-7xl mx-auto">
+        <FlexRow id="nav-bar" className="justify-between">
+          { children }
+        </FlexRow>
+      </div>
+    </div>
   );
 };
 

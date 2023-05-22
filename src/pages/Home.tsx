@@ -5,7 +5,12 @@ import { getGroupedGroceriesByCategory } from "../helpers";
 import { GroceryItem, Ingredient, GroupedGroceries } from "../types";
 import { useUserRecipes } from "../hooks/useUserRecipes";
 
-const Home = () => {
+type Props = {
+  userId: string | null;
+};
+
+const Home = ({ userId }: Props) => {
+
   const {
     data: groceriesData,
     loading: groceriesLoading,
@@ -15,7 +20,7 @@ const Home = () => {
     userGroceries,
     loading: userGroceriesLoading,
     error: userGroceriesError,
-  } = useUserGroceries();
+  } = useUserGroceries({ userId });
   const {
     error: recipeError,
     loading: recipeLoading,
@@ -23,7 +28,7 @@ const Home = () => {
     sendIngredients,
     resetState: resetRecipeState,
   } = useFindRecipe();
-  const { addUserRecipe, loading: userRecipesLoading, error: userRecipesError } = useUserRecipes();
+  const { addUserRecipe, loading: userRecipesLoading, error: userRecipesError } = useUserRecipes({ userId });
   const error = groceriesError || userGroceriesError || recipeError || userRecipesError;
   const loading = groceriesLoading || userGroceriesLoading || recipeLoading || userRecipesLoading;
 

@@ -6,37 +6,42 @@ interface Option {
 }
 
 interface Props {
+  placeholder?: string;
   options: Option[];
-  setInputValue: (value: string) => void;
+  handleSelectValue: (value: string) => void;
 }
 
-export const AutoComplete = ({ options, setInputValue }: Props) => {
+export const AutoComplete = ({ placeholder = "Search...", options, handleSelectValue }: Props) => {
+  const [searchValue, setSearchValue] = useState("");
   const [suggestions, setSuggestions] = useState<Option[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (value == "")
+    setSearchValue(value);
+    if (searchValue == "")
       return setSuggestions([]);
     // Perform your suggestions logic here, e.g., filtering options based on the input value
     const filteredSuggestions = options.filter(option =>
-      option.label.toLowerCase().includes(value.toLowerCase()),
+      option.label.toLowerCase().includes(searchValue.toLowerCase()),
     );
 
     setSuggestions(filteredSuggestions);
   };
 
   const handleSelect = (value: string) => {
-    setInputValue(value);
+    handleSelectValue(value);
     setSuggestions([]);
+    setSearchValue("");
   };
 
   return (
     <div className="relative">
       <input
+        value={searchValue}
         type="text"
         onChange={handleChange}
         className="w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:border-yellow-500"
-        placeholder="Search..."
+        placeholder={placeholder}
       />
       {suggestions.length > 0 && (
         <ul className="absolute z-10 w-full max-h-60 overflow-y-auto py-1 mt-2 bg-white rounded-md shadow-lg">

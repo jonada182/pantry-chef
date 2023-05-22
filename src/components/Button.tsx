@@ -2,17 +2,19 @@ import React from "react";
 
 type Props = {
   text: string;
+  type?: "submit" | "reset" | "button" | undefined;
   isSmall?: boolean;
   loadingText?: string;
   isLoading?: boolean;
   isCentered?: boolean;
   isSecondary?: boolean;
-  handleOnClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleOnClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 };
 
 export function Button({
   text,
+  type = "button",
   isSmall,
   loadingText = "Loading...",
   isLoading,
@@ -23,7 +25,7 @@ export function Button({
 }: Props) {
   return (
     <button
-      type="button"
+      type={type}
       className={`
         transition-all duration-500 ease-in-out
         hover:opacity-70
@@ -35,7 +37,7 @@ export function Button({
         ${ isCentered ? `place-self-center` : "place-self-start"}
         ${ className && className }
       `}
-      onClick={(e) => handleOnClick(e)}
+      onClick={handleOnClick && ((e) => handleOnClick(e))}
       disabled={isLoading}
     >
       {isLoading ? loadingText : text}

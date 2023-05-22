@@ -26,7 +26,7 @@ const getCategoryImage = (slug: string) => {
 
 export const GroceryCategoryIcon = ({ categorySlug }: Props) => {
   return (
-    <div className="w-12 h-12">
+    <div className="w-9 h-9">
       <img src={getCategoryImage(categorySlug)} alt={categorySlug} className="w-full h-full object-contain"/>
     </div>
   );

@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { Recipe, UserRecipe } from "../types";
 import { api, generateFakeId } from "../helpers";
-import { APP_USER_ID, MOCK_API } from "../helpers/constants";
+import { MOCK_API } from "../helpers/constants";
 import { testUserRecipes } from "./testData";
 
-export function useUserRecipes() {
+type Props = {
+  userId: string | null;
+};
+
+export function useUserRecipes({ userId }: Props) {
   const [userRecipes, setUserRecipes] = useState<UserRecipe[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -36,7 +40,7 @@ export function useUserRecipes() {
   };
 
   const mapResponseArray = (data: any): UserRecipe[] => {
-    return data.map((recipe: UserRecipeAPIResponse) => (mapResponse(recipe)));
+    return data?.map((recipe: UserRecipeAPIResponse) => (mapResponse(recipe)));
   };
 
   const mockResponseRecipe = (mockData: any) => {
@@ -55,7 +59,7 @@ export function useUserRecipes() {
       setLoading(true);
       try {
         const API = api.init();
-        const response = await API.get(`/user/${ APP_USER_ID }/recipes`);
+        const response = await API.get(`/user/${ userId }/recipes`);
         setUserRecipes(mapResponseArray(response?.data));
       } catch (err: any) {
         setError(err);
@@ -90,7 +94,7 @@ export function useUserRecipes() {
       };
 
       const API = api.init();
-      const response = await API.post(`/user/${ APP_USER_ID }/recipes`, payload);
+      const response = await API.post(`/user/${ userId }/recipes`, payload);
       if (response?.data?.data) {
         try {
           setUserRecipes([...userRecipes, mapResponse(response?.data?.data)]);
@@ -111,7 +115,7 @@ export function useUserRecipes() {
         return setUserRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe._id !== userRecipeId));
 
       const API = api.init();
-      const response = await API.delete(`/user/${ APP_USER_ID }/recipes/${ userRecipeId }`);
+      const response = await API.delete(`/user/${ userId }/recipes/${ userRecipeId }`);
       if (response)
         setUserRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe._id !== userRecipeId));
     } catch (err: any) {

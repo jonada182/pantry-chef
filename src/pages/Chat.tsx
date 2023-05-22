@@ -21,7 +21,7 @@ const Chat = () => {
       description="How can I help you today?"
     >
       <FlexRow gap={2} className="mb-4">
-        <TextInput value={message} isLoading={isLoading} handleOnChange={setMessage} />
+        <TextInput value={message} placeholder="Type a message to send" isLoading={isLoading} handleOnChange={setMessage} />
         <Button text="Send" loadingText="Sending" isLoading={isLoading} handleOnClick={handleSendMessageBtn} />
       </FlexRow>
       <ChatContainer message={requestMessage} response={chatResponse} loading={isLoading} error={error} />

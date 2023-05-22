@@ -2,7 +2,7 @@ import { renderHook, act, waitFor } from "@testing-library/react";
 import { useUserGroceries } from "../useUserGroceries";
 import axios from "axios";
 
-jest.mock("../../helpers/constants", () =>({ API_BASE_URL: "http://localhost/api", APP_USER_ID: "test-user" }));
+jest.mock("../../helpers/constants", () =>({ API_BASE_URL: "http://localhost/api" }));
 
 jest.mock("axios");
 
@@ -18,10 +18,10 @@ describe("useUserGroceries hook", () => {
     const mockAxios = axios as jest.Mocked<typeof axios>;
     mockAxios.create.mockImplementation(() => axios );
     mockAxios.get.mockResolvedValueOnce({ data: responseData });
-    mockAxios.post.mockResolvedValueOnce({ data: {message: "saved"} });
-    mockAxios.delete.mockResolvedValueOnce({ data: {message: "deleted"} });
+    mockAxios.post.mockResolvedValueOnce({ data: { message: "saved" } });
+    mockAxios.delete.mockResolvedValueOnce({ data: { message: "deleted" } });
 
-    const { result } = renderHook(() => useUserGroceries());
+    const { result } = renderHook(() => useUserGroceries({ userId: "test-user" }));
 
     expect(mockAxios.get).toBeCalledWith(`/user/test-user/groceries`);
     expect(mockAxios.get).toBeCalledTimes(1);

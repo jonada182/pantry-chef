@@ -3,8 +3,7 @@ import { useUserRecipes } from "../useUserRecipes";
 import axios from "axios";
 import { generateFakeId } from "../../helpers";
 
-jest.mock("../../helpers/constants", () =>({ API_BASE_URL: "http://localhost/api", APP_USER_ID: "test-user" }));
-
+jest.mock("../../helpers/constants", () =>({ API_BASE_URL: "http://localhost/api" }));
 jest.mock("axios");
 
 describe("useUserRecipes hook", () => {
@@ -74,18 +73,16 @@ describe("useUserRecipes hook", () => {
     mockAxios.create.mockImplementation(() => axios );
     mockAxios.get.mockResolvedValueOnce({ data: responseData });
     mockAxios.post.mockImplementationOnce(() => {
-      return Promise.resolve({ data: { message: "saved", data: newRecipeResponse }});
+      return Promise.resolve({ data: { message: "saved", data: newRecipeResponse } });
     });
     mockAxios.delete.mockResolvedValueOnce({ data: { message: "deleted" } });
 
-    const { result } = renderHook(() => useUserRecipes());
-
-    expect(mockAxios.get).toBeCalledWith(`/user/test-user/recipes`);
-    expect(mockAxios.get).toBeCalledTimes(1);
+    const { result } = renderHook(() => useUserRecipes({ userId: "test-user" }));
 
     expect(result.current.loading).toBe(true);
 
     await waitFor(() => {
+      expect(mockAxios.get).toBeCalledWith(`/user/test-user/recipes`);
       expect(result.current.loading).toBe(false);
       expect(result.current.error).toBeNull();
       expect(result.current.userRecipes).toStrictEqual(expectedResponse);

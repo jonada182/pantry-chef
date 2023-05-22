@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
 import { UserGrocery } from "../types";
 import { api } from "../helpers";
-import { APP_USER_ID, MOCK_API } from "../helpers/constants";
+import { MOCK_API } from "../helpers/constants";
 import { testUserGroceries } from "./testData";
 
-export function useUserGroceries() {
+type Props = {
+  userId: string | null;
+};
+
+export function useUserGroceries({ userId }: Props) {
   const [userGroceries, setUserGroceries] = useState<UserGrocery[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
+
+  const mapResponse = (data: any): UserGrocery[] => {
+    return data.map((item: any) => ({ groceryItemId: item.grocery_item_id }));
+  };
 
   const mockResponseRecipe = (mockData: any) => {
     setLoading(true);
@@ -15,10 +23,6 @@ export function useUserGroceries() {
       setUserGroceries(mapResponse(mockData));
       setLoading(false);
     });
-  };
-
-  const mapResponse = (data: any): UserGrocery[] => {
-    return data.map((item: any) => ({ groceryItemId: item.grocery_item_id }));
   };
 
   useEffect(() => {
@@ -29,7 +33,7 @@ export function useUserGroceries() {
       setLoading(true);
       try {
         const API = api.init();
-        const response = await API.get(`/user/${ APP_USER_ID }/groceries`);
+        const response = await API.get(`/user/${ userId }/groceries`);
         setUserGroceries(mapResponse(response?.data));
       } catch (err: any) {
         setError(err);
@@ -49,7 +53,7 @@ export function useUserGroceries() {
         return setUserGroceries([...userGroceries, newItem]);
 
       const API = api.init();
-      const response = await API.post(`/user/${ APP_USER_ID }/groceries/${ newItem.groceryItemId }`);
+      const response = await API.post(`/user/${ userId }/groceries/${ newItem.groceryItemId }`);
       if (response)
         setUserGroceries([...userGroceries, newItem]);
     } catch (err: any) {
@@ -65,7 +69,7 @@ export function useUserGroceries() {
         return setUserGroceries((prevItems) => prevItems.filter((item) => item.groceryItemId !== groceryItemId));
 
       const API = api.init();
-      const response = await API.delete(`/user/${ APP_USER_ID }/groceries/${ groceryItemId }`);
+      const response = await API.delete(`/user/${ userId }/groceries/${ groceryItemId }`);
       if (response)
         setUserGroceries((prevItems) => prevItems.filter((item) => item.groceryItemId !== groceryItemId));
     } catch (err: any) {

@@ -10,19 +10,30 @@ import { Page,
   AutoComplete } from "../components";
 import { useUserGroceries } from "../hooks/useUserGroceries";
 
-const Groceries = () => {
-  const { data: allGroceries, loading: groceriesLoading, error: groceriesError } = useGetGroceries();
+type Props = {
+  userId: string | null;
+};
+
+const Groceries = ({ userId }: Props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
+
+  const {
+    data: allGroceries,
+    loading: groceriesLoading,
+    error: groceriesError,
+  } = useGetGroceries();
   const {
     userGroceries,
     addUserGrocery,
     deleteUserGrocery,
     loading: userGroceriesLoading,
     error: userGroceriesError,
-  } = useUserGroceries();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<GroceryCategory | null>(null);
+  } = useUserGroceries({ userId });
+
   const loading = groceriesLoading || userGroceriesLoading;
   const error = groceriesError || userGroceriesError;
+
   const autoCompleteOptions =
     allGroceries?.flatMap(category => category.items)
       .filter(item => !userGroceries.some((sItem: UserGrocery) => sItem.groceryItemId === item._id))
@@ -59,10 +70,10 @@ const Groceries = () => {
       error={error}
     >
       <FlexCol gap={4}>
-        <GroceryCategories groceries={allGroceries} handleOnClick={openModal} />
         { allGroceries && (
-          <AutoComplete options={autoCompleteOptions} setInputValue={(value) => handleAutoComplete(value)} />
+          <AutoComplete placeholder="Search for grocery items..." options={autoCompleteOptions} handleSelectValue={(value) => handleAutoComplete(value)} />
         )}
+        <GroceryCategories groceries={allGroceries} handleOnClick={openModal} />
         <GrocerySelectedItems
           groceries={allGroceries}
           userGroceries={userGroceries}

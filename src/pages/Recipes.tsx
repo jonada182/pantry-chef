@@ -3,13 +3,17 @@ import { Badge, Button, Card, FlexCol, FlexRow, Modal, Page } from "../component
 import { useUserRecipes } from "../hooks/useUserRecipes";
 import { getRecipeDifficulty, UserRecipe } from "../types";
 
-const Recipes = () => {
+type Props = {
+  userId: string | null;
+};
+
+const Recipes = ({ userId }: Props ) => {
   const {
     userRecipes,
     deleteUserRecipe,
     loading: userRecipesLoading,
     error: userRecipesError,
-  } = useUserRecipes();
+  } = useUserRecipes({ userId });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<UserRecipe | null>(null);
@@ -24,7 +28,7 @@ const Recipes = () => {
   };
 
   const renderUserRecipes = () => {
-    if (userRecipes) {
+    if (userRecipes?.length > 0) {
       return userRecipes.map((userRecipe) => (
         <Card key={userRecipe._id}>
           <FlexCol>
@@ -42,7 +46,7 @@ const Recipes = () => {
       ));
     }
 
-    return <></>;
+    return <Card description="You haven't saved any recipes yet." />;
   };
 
   return (
