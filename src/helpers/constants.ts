@@ -8,7 +8,7 @@ const {
   APP_MOCK_API: MOCK_API,
 } = import.meta.env;
 
-const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || "api_key";
+const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY;
 
 export {
   API_BASE_URL,
