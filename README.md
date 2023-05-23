@@ -10,6 +10,7 @@ This Chatbot app built with React TypeScript, using the [OpenAI Chat API](https:
 ```
     APP_API_BASE_URL="http://localhost:8000"
     APP_MOCK_API=false
+    FIREBASE_API_KEY=""
 ```
 4.  Start the development server using `npm run dev`
 5.  Open your browser and go to `http://localhost:3000`
@@ -52,7 +53,11 @@ The base URL for the API. Default value is `http://localhost:8000`.
 
 ### `APP_MOCK_API`
 
-A boolean value that determines whether to use a mock API response. Default value is `false`.
+A boolean value that determines whether to use a mock API response. `true` is recommended to get everything running. Default value is `false`.
+
+### `FIREBASE_API_KEY`
+
+Set up a Firebase app/project, and paste the API key here. Firebase is used to authenticate users.
 
 ## Using Docker for local development
 
