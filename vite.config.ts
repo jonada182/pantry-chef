@@ -1,12 +1,11 @@
 import { defineConfig, loadEnv } from "vite"
 import react from "@vitejs/plugin-react"
+import dotenv from "dotenv";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  const definedVariables = {};
   if (mode === "development") {
-    definedVariables["process.env.FIREBASE_API_KEY"] = `"${env.FIREBASE_API_KEY}"`;
+    dotenv.config({ path: "./.env.local"});
   }
 
   return {
@@ -16,6 +15,8 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: true,
     },
-    define: definedVariables,
+    define: {
+      "process.env.FIREBASE_API_KEY": `"${process.env.FIREBASE_API_KEY}"`,
+    }
   }
 });

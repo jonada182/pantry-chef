@@ -17,7 +17,7 @@ type Props = {
 
 export const Card = ({ title, description, isHTML = false, children, hero }: Props) => {
   return (
-    <FlexCol className="rounded-lg my-4 bg-white shadow-md border-gray-100 border border-solid overflow-hidden" gap={4}>
+    <FlexCol className={`rounded-lg my-4 bg-white shadow-md border-gray-100 border border-solid ${hero && "overflow-hidden"}`} gap={4}>
       { hero && (
         <FlexCol className="w-full h-60 relative">
           { hero.imageUrl && <img src={hero.imageUrl} alt={hero.title} className="absolute inset-0 object-cover object-top w-full h-full" />}

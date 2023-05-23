@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Badge, Button, Card, FlexCol, FlexRow, Modal, Page } from "../components";
+import { Badge, Button, Card, FlexCol, FlexRow, Modal, Page, Toast } from "../components";
 import { useUserRecipes } from "../hooks/useUserRecipes";
 import { getRecipeDifficulty, UserRecipe } from "../types";
 
@@ -46,7 +46,7 @@ const Recipes = ({ userId }: Props ) => {
       ));
     }
 
-    return <Card description="You haven't saved any recipes yet." />;
+    return <Toast type="neutral" message="You haven't saved any recipes yet." />;
   };
 
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { GroceryItem } from "../../types";
-import { Chip, FlexCol, FlexRow } from "..";
+import { Chip, FlexCol, FlexRow, Toast } from "..";
 import { compareGroceryItems } from "../../helpers";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 export const GroceryItems = ({ groceryItems, handleOnClick }: Props) => {
 
   if (!groceryItems || groceryItems?.length == 0)
-    return <div className="text-sm text-primary-text">No groceries available</div>;
+    return <Toast type="neutral" message="No groceries available." />;
 
   const renderSelectedItems = () => {
     return groceryItems?.sort(compareGroceryItems).map((item) => (

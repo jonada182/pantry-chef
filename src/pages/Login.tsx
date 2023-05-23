@@ -14,7 +14,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (userId) {
-      // navigate("/");
+      navigate("/");
     }
 
     if (isSignInWithEmailLink(auth, window.location.href)) {
@@ -35,7 +35,7 @@ export const Login = () => {
           });
       }
     }
-  }, [navigate]);
+  }, [navigate, userId]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();

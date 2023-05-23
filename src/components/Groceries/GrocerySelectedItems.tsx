@@ -1,6 +1,6 @@
 import React from "react";
 import { GroceryCategory, GroceryItem, UserGrocery } from "../../types";
-import { Chip, FlexCol, FlexRow } from "..";
+import { Chip, FlexCol, FlexRow, Toast } from "..";
 import { compareGroceryItems } from "../../helpers";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 export const GrocerySelectedItems = ({ groceries, userGroceries, handleOnClick }: Props) => {
 
   if (!groceries || groceries?.length == 0)
-    return <div className="text-sm text-primary-text">No groceries available</div>;
+    return <Toast type="neutral" message="No groceries available." />;
 
   const renderUserGroceries = () => {
     const allItems = groceries?.flatMap((category: GroceryCategory) => category.items);

@@ -6,23 +6,24 @@ import { MessageSquare } from "react-feather";
 import { AuthContext } from "./AuthContext";
 
 const App = () => {
-  const { userId, isLoading: authIsLoading } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
   const [initialLoading, setInitialLoading] = useState(true);
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
 
   useEffect(() => {
-    if (userId || !authIsLoading) {
+    if (userId) {
       setInitialLoading(false);
     }
   }, [userId]);
 
-  if (initialLoading) {
-    return <LoadingPage message="Loading user information..." />;
+  if (!userId && !isLoginPage) {
+    return <Navigate to="/login" replace />;
   }
 
-  if (!userId) {
-    return <Navigate to="/login" replace />;
+
+  if (initialLoading && !isLoginPage) {
+    return <LoadingPage message="Loading user information..." />;
   }
 
   return (
