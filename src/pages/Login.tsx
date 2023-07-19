@@ -8,9 +8,9 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+  const { userId } = useContext(AuthContext);
   const navigate = useNavigate();
   const auth = getAuth();
-  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     if (userId) {
@@ -47,10 +47,15 @@ export const Login = () => {
       };
 
       setIsLoading(true);
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", email);
-      setIsLoading(false);
-      setEmail("");
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings).then(() => {
+        window.localStorage.setItem("emailForSignIn", email);
+        // TODO: show successful message
+      }).catch((err) => {
+        setError(err);
+      }).finally(() => {
+        setIsLoading(false);
+        setEmail("");
+      });
     } catch (err) {
       setError(new Error("Error sending sign-in link:" + err));
     }
