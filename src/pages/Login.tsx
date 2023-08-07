@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink } from "firebase/auth";
 import { Button, FlexCol, Page, TextInput } from "../components";
 import { AuthContext } from "../AuthContext";
+import firebaseApp from "../helpers/firebase";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,19 +10,19 @@ export const Login = () => {
   const [error, setError] = useState<Error | null>(null);
   const { userId } = useContext(AuthContext);
   const navigate = useNavigate();
-  const auth = getAuth();
+  const auth = firebaseApp.auth();
 
   useEffect(() => {
     if (userId) {
       navigate("/");
     }
 
-    if (isSignInWithEmailLink(auth, window.location.href)) {
+    if (auth.isSignInWithEmailLink(window.location.href)) {
       const storedEmail = window.localStorage.getItem("emailForSignIn");
 
       if (storedEmail) {
         setIsLoading(true);
-        signInWithEmailLink(auth, storedEmail, window.location.href)
+        auth.signInWithEmailLink(storedEmail, window.location.href)
           .then(() => {
             window.localStorage.removeItem("emailForSignIn");
             navigate("/");
@@ -47,7 +47,7 @@ export const Login = () => {
       };
 
       setIsLoading(true);
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings).then(() => {
+      await auth.sendSignInLinkToEmail(email, actionCodeSettings).then(() => {
         window.localStorage.setItem("emailForSignIn", email);
         // TODO: show successful message
       }).catch((err) => {

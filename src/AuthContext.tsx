@@ -1,4 +1,3 @@
-import { getAuth } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { generateFakeId } from "./helpers";
 import { MOCK_API } from "./helpers/constants";
@@ -21,13 +20,13 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     if (MOCK_API == "true") {
       setUserId(generateFakeId);
     } else {
-      getAuth(firebaseApp).onAuthStateChanged((user) => {
+      firebaseApp.auth().onAuthStateChanged((user) => {
         if (user) {
           setUserId(user.uid);
         } else {
           setUserId(null);
         }
-      }, (error) => {
+      }, (error: any) => {
         throw (error);
       });
     }
