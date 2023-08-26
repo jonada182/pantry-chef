@@ -2,6 +2,8 @@
 
 This Chatbot app built with React TypeScript, using the [OpenAI Chat API](https://platform.openai.com/docs/guides/chat)
 
+[**Demo**](https://curious-squirrel-6fc61c.netlify.app)
+
 ## Getting Started
 
 1.  Clone this repository
