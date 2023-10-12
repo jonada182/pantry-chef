@@ -1,8 +1,8 @@
-# Chatbot UI
+# PantryChef
 
-This Chatbot app built with React TypeScript, using the [OpenAI Chat API](https://platform.openai.com/docs/guides/chat)
+Unleash the true potential of your pantry with **PantryChef**. No more wondering what to cook with the random assortment of ingredients you have on hand. Simply select the products you've got, and let our cutting-edge OpenAI integration generate delicious recipes tailored just for you. Manage your ingredients, save your favorite recipes, and discover culinary creations you never imagined—all in one app.
 
-[**Demo**](https://curious-squirrel-6fc61c.netlify.app)
+[**Demo**](https://pantry-chef.netlify.app)
 
 ## Getting Started
 

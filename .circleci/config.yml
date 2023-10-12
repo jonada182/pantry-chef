@@ -4,7 +4,7 @@ jobs:
   build_and_test:
     docker:
       - image: cimg/node:19.8.1
-    working_directory: ~/chatbot-ui
+    working_directory: ~/pantry-chef
     steps:
       - checkout
       - run: npm install
@@ -20,16 +20,16 @@ jobs:
             echo "FIREBASE_API_KEY=$FIREBASE_API_KEY" >> .env
             npm run build
       - persist_to_workspace:
-          root: ~/chatbot-ui
+          root: ~/pantry-chef
           paths:
             - dist
   deploy:
     docker:
       - image: cimg/node:19.8.1
-    working_directory: ~/chatbot-ui
+    working_directory: ~/pantry-chef
     steps:
       - attach_workspace:
-          at: ~/chatbot-ui
+          at: ~/pantry-chef
       - run:
           name: Deploy
           command: |
